@@ -9,6 +9,7 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import OneClassSVM, LinearSVC
 from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.calibration import CalibratedClassifierCV
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.cluster import KMeans
@@ -178,21 +179,40 @@ class ModelTrainer:
         logger.info("Training Logistic Regression model...")
         
         # Prepare data
-        # Calculate impacto if not present
+        # Calculate impacto if not present, con refuerzo para motivos médicos
         if 'impacto_area_numerico' not in df.columns or df['impacto_area_numerico'].isna().all():
-            impacto = (
-                df['dias_solicitados'] * 1.7 +
-                df['dias_ult_ano'] * 0.25 -
-                df['antiguedad_anios'] * 0.15
+            base = (
+                df['dias_solicitados'].fillna(0) * 1.9 +
+                df['dias_ult_ano'].fillna(0) * 0.30 -
+                df['antiguedad_anios'].fillna(0) * 0.20
             )
-            impacto = np.clip(impacto, 0, 100)
+            # Refuerzo si el tipo de permiso es ENFERMEDAD
+            ref_med = np.where(df['tipo_permiso_real'].fillna('') == 'ENFERMEDAD', 8.0, 0.0)
+            impacto = np.clip(base + ref_med, 0, 100)
         else:
             impacto = df['impacto_area_numerico'].fillna(0)
-        
+
+        # Feature engineering adicional
+        texto_largo = df['motivo_texto'].fillna('').str.len()
+        anomala_bin = (df['es_anomala'].fillna(0) == 1).astype(int)
+        vacaciones_bin = (df['tipo_permiso_real'].fillna('') == 'VACACIONES').astype(int)
+        enfermedad_bin = (df['tipo_permiso_real'].fillna('') == 'ENFERMEDAD').astype(int)
+        sanciones_bin = (df['sanciones_activas'].fillna(0) == 1).astype(int)
+        inasistencias = df['inasistencias'].fillna(0).astype(float)
+        segmento_ml = df.get('segmento_ml', pd.Series([0]*len(df))).fillna(0).astype(float)
+
         X = pd.DataFrame({
             'impacto_area': impacto,
             'dias_solicitados': df['dias_solicitados'].fillna(0),
-            'antiguedad_anios': df['antiguedad_anios'].fillna(0)
+            'antiguedad_anios': df['antiguedad_anios'].fillna(0),
+            'dias_ult_ano': df['dias_ult_ano'].fillna(0),
+            'texto_largo': texto_largo,
+            'anomala_bin': anomala_bin,
+            'vacaciones_bin': vacaciones_bin,
+            'enfermedad_bin': enfermedad_bin,
+            'sanciones_bin': sanciones_bin,
+            'inasistencias': inasistencias,
+            'segmento_ml': segmento_ml
         })
         
         # Encode labels
@@ -200,14 +220,22 @@ class ModelTrainer:
         y = le.fit_transform(df['resultado_rrhh'])
         
         # Train model
-        model = LogisticRegression(max_iter=1000)
-        model.fit(X, y)
+        base = LogisticRegression(max_iter=1000, class_weight='balanced')
+        base.fit(X, y)
+        # Calibración para probabilidades mejor comportadas
+        try:
+            calibrated = CalibratedClassifierCV(base_estimator=base, method='sigmoid', cv=3)
+            calibrated.fit(X, y)
+            self.models['logistic_calibrated'] = calibrated
+            logger.info("Calibrated logistic regression trained (sigmoid, cv=3)")
+        except Exception as e:
+            logger.warning(f"Calibration skipped: {e}")
         
-        self.models['logistic'] = model
+        self.models['logistic'] = base
         self.models['label_encoder'] = le
         
         # Calculate accuracy
-        accuracy = model.score(X, y)
+        accuracy = base.score(X, y)
         self.training_metrics['logistic_accuracy'] = accuracy
         
         logger.info(f"Logistic Regression trained. Accuracy: {accuracy:.4f}")
@@ -216,21 +244,32 @@ class ModelTrainer:
         """Model 5: Decision Tree for resultado_rrhh classification"""
         logger.info("Training Decision Tree model...")
         
-        # Use same features as logistic regression
+        # Same enriched features as logistic regression
         if 'impacto_area_numerico' not in df.columns or df['impacto_area_numerico'].isna().all():
-            impacto = (
-                df['dias_solicitados'] * 1.7 +
-                df['dias_ult_ano'] * 0.25 -
-                df['antiguedad_anios'] * 0.15
+            base = (
+                df['dias_solicitados'].fillna(0) * 1.9 +
+                df['dias_ult_ano'].fillna(0) * 0.30 -
+                df['antiguedad_anios'].fillna(0) * 0.20
             )
-            impacto = np.clip(impacto, 0, 100)
+            ref_med = np.where(df['tipo_permiso_real'].fillna('') == 'ENFERMEDAD', 8.0, 0.0)
+            impacto = np.clip(base + ref_med, 0, 100)
         else:
             impacto = df['impacto_area_numerico'].fillna(0)
-        
+
+        texto_largo = df['motivo_texto'].fillna('').str.len()
+        anomala_bin = (df['es_anomala'].fillna(0) == 1).astype(int)
+        vacaciones_bin = (df['tipo_permiso_real'].fillna('') == 'VACACIONES').astype(int)
+        enfermedad_bin = (df['tipo_permiso_real'].fillna('') == 'ENFERMEDAD').astype(int)
+
         X = pd.DataFrame({
             'impacto_area': impacto,
             'dias_solicitados': df['dias_solicitados'].fillna(0),
-            'antiguedad_anios': df['antiguedad_anios'].fillna(0)
+            'antiguedad_anios': df['antiguedad_anios'].fillna(0),
+            'dias_ult_ano': df['dias_ult_ano'].fillna(0),
+            'texto_largo': texto_largo,
+            'anomala_bin': anomala_bin,
+            'vacaciones_bin': vacaciones_bin,
+            'enfermedad_bin': enfermedad_bin
         })
         
         # Use the same label encoder

@@ -34,6 +34,7 @@ class Config:
         'svm': os.path.join(MODELS_DIR, 'modelo_svm.pkl'),
         'regression': os.path.join(MODELS_DIR, 'modelo_regresion.pkl'),
         'logistic': os.path.join(MODELS_DIR, 'modelo_log.pkl'),
+        'logistic_calibrated': os.path.join(MODELS_DIR, 'modelo_log_calibrado.pkl'),
         'label_encoder': os.path.join(MODELS_DIR, 'label_rrhh.pkl'),
         'tree': os.path.join(MODELS_DIR, 'modelo_tree.pkl'),
         'kmeans': os.path.join(MODELS_DIR, 'modelo_kmeans.pkl'),

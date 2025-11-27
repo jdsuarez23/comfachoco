@@ -8,6 +8,13 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import DiagramaFlujoMetodologia from '@/components/DiagramaFlujoMetodologia';
 
+// Tipado del resultado de simulación
+interface SimulationResult {
+  aprobado: boolean;
+  tiempoEstimado: number;
+  razon: string;
+}
+
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -23,7 +30,7 @@ export default function Home() {
     modelo: 'regresion-lineal'
   });
 
-  const [simulationResult, setSimulationResult] = useState(null);
+  const [simulationResult, setSimulationResult] = useState<SimulationResult | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const navigateToHome = () => setCurrentView('home');
@@ -64,7 +71,7 @@ export default function Home() {
     // Simulación básica según el modelo seleccionado
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    let result = { aprobado: false, tiempoEstimado: 0, razon: '' };
+    let result: SimulationResult = { aprobado: false, tiempoEstimado: 0, razon: '' };
     
     switch (formData.modelo) {
       case 'regresion-lineal':
@@ -518,7 +525,7 @@ export default function Home() {
                     <textarea 
                       placeholder="Necesito unos días para descansar y visitar a mi familia"
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                      rows="3"
+                      rows={3}
                     />
                   </div>
                   <div>
@@ -710,7 +717,7 @@ export default function Home() {
           </p>
           <ul className="paso__lista">
             <li>Frases por tipo: 200+ variaciones por permiso</li>
-            <li>Reglas de anomalía: >8 días paternidad, >30 días cualquier tipo, etc.</li>
+            <li>Reglas de anomalía: mayor a 8 días paternidad, mayor a 30 días cualquier tipo, etc.</li>
             <li>Balance final: 68 % normal / 32 % anómala</li>
           </ul>
           <a href="#colab" className="btn-descarga">Descargar dataset sintético</a>
@@ -1133,7 +1140,7 @@ export default function Home() {
                         <label className="block text-sm font-medium text-gray-700 mb-1">Mensaje</label>
                         <textarea 
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                          rows="4"
+                          rows={4}
                           placeholder="¿En qué podemos ayudarte?"
                         />
                       </div>

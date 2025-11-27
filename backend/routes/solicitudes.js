@@ -22,10 +22,11 @@ const fs = require('fs');
 router.post('/', authMiddleware, upload.single('archivo_soporte'), [
     // tipo_permiso_real is NO LONGER required - ML Naive Bayes will classify it
     body('motivo_texto').trim().notEmpty().withMessage('Reason is required').isLength({ min: 20 }).withMessage('Reason must be at least 20 characters for ML analysis'),
-    body('dias_solicitados').isInt({ min: 1 }).withMessage('Days requested must be at least 1'),
+    body('dias_solicitados').isInt({ min: 1 }).withMessage('Days requested must be at least 1').toInt(),
     body('fecha_inicio').isDate().withMessage('Valid start date is required'),
     body('fecha_fin').isDate().withMessage('Valid end date is required'),
-    body('impacto_area').optional().isIn(['BAJO', 'MEDIO', 'ALTO']).withMessage('Invalid impact level')
+    body('impacto_area').optional().isIn(['BAJO', 'MEDIO', 'ALTO']).withMessage('Invalid impact level'),
+    body('dias_ult_ano').optional().isInt({ min: 0 }).toInt()
 ], async (req, res) => {
     try {
         // Validate input

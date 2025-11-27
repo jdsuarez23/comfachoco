@@ -14,6 +14,23 @@ class ModelPredictor:
         self.models = {}
         self.data_loader = DataLoader()
         self._load_models()
+
+    def _to_float(self, v, default=0.0):
+        try:
+            if v is None:
+                return float(default)
+            # Handle numpy types and strings with spaces
+            return float(str(v).strip())
+        except Exception:
+            return float(default)
+
+    def _to_int(self, v, default=0):
+        try:
+            if v is None:
+                return int(default)
+            return int(float(str(v).strip()))
+        except Exception:
+            return int(default)
     
     def _load_models(self):
         """Load all trained models from disk"""
@@ -50,6 +67,12 @@ class ModelPredictor:
         try:
             # Prepare data
             data = self.data_loader.prepare_prediction_data(request_data)
+
+            # Coerce numeric fields to proper types to avoid dtype errors
+            data['dias_solicitados'] = self._to_float(data.get('dias_solicitados', 0))
+            data['dias_ult_ano'] = self._to_float(data.get('dias_ult_ano', 0))
+            data['antiguedad_anios'] = self._to_float(data.get('antiguedad_anios', 0))
+            data['edad'] = self._to_float(data.get('edad', 0))
             
             # Model 1: Naive Bayes - Classify tipo_permiso
             tipo_permiso = self._predict_tipo_permiso(data['motivo_texto'])
@@ -160,10 +183,10 @@ class ModelPredictor:
         model = self.models['svm']
         
         X = np.array([[
-            data['dias_solicitados'],
-            data['dias_ult_ano'],
-            data['antiguedad_anios']
-        ]])
+            self._to_float(data['dias_solicitados']),
+            self._to_float(data['dias_ult_ano']),
+            self._to_float(data['antiguedad_anios'])
+        ]], dtype=float)
         
         prediction = model.predict(X)[0]
         return prediction == -1  # -1 means anomaly
@@ -173,24 +196,43 @@ class ModelPredictor:
         model = self.models['regression']
         
         X = np.array([[
-            data['dias_solicitados'],
-            data['dias_ult_ano'],
-            data['antiguedad_anios']
-        ]])
+            self._to_float(data['dias_solicitados']),
+            self._to_float(data['dias_ult_ano']),
+            self._to_float(data['antiguedad_anios'])
+        ]], dtype=float)
         
         impacto = model.predict(X)[0]
         return np.clip(impacto, 0, 100)
     
     def _predict_probabilities(self, data, impacto_area):
         """Model 4: Predict approval probabilities"""
-        model = self.models['logistic']
+        # Prefer calibrated logistic if available
+        model = self.models.get('logistic_calibrated', self.models['logistic'])
         le = self.models['label_encoder']
-        
+        # Build enriched feature vector aligned with trainer
+        texto_largo = float(len((data.get('motivo_texto') or '').strip()))
+        # tipo y anómala dependen de predicciones previas
+        tipo_permiso = data.get('tipo_permiso_real')
+        vacaciones_bin = 1.0 if str(tipo_permiso) == 'VACACIONES' else 0.0
+        enfermedad_bin = 1.0 if str(tipo_permiso) == 'ENFERMEDAD' else 0.0
+        anomala_bin = 1.0 if bool(data.get('es_anomala')) else 0.0
+        sanciones_bin = 1.0 if bool(data.get('sanciones_activas')) else 0.0
+        inasistencias = self._to_float(data.get('inasistencias', 0))
+        segmento_ml = self._to_float(data.get('segmento_ml', 0))
+
         X = np.array([[
-            impacto_area,
-            data['dias_solicitados'],
-            data['antiguedad_anios']
-        ]])
+            self._to_float(impacto_area),
+            self._to_float(data['dias_solicitados']),
+            self._to_float(data['antiguedad_anios']),
+            self._to_float(data['dias_ult_ano']),
+            texto_largo,
+            anomala_bin,
+            vacaciones_bin,
+            enfermedad_bin,
+            sanciones_bin,
+            inasistencias,
+            segmento_ml
+        ]], dtype=float)
         
         proba = model.predict_proba(X)[0]
         
@@ -217,12 +259,29 @@ class ModelPredictor:
         """Model 5: Predict final decision"""
         model = self.models['tree']
         le = self.models['label_encoder']
-        
+        # Same enriched features as logistic
+        texto_largo = float(len((data.get('motivo_texto') or '').strip()))
+        tipo_permiso = data.get('tipo_permiso_real')
+        vacaciones_bin = 1.0 if str(tipo_permiso) == 'VACACIONES' else 0.0
+        enfermedad_bin = 1.0 if str(tipo_permiso) == 'ENFERMEDAD' else 0.0
+        anomala_bin = 1.0 if bool(data.get('es_anomala')) else 0.0
+        sanciones_bin = 1.0 if bool(data.get('sanciones_activas')) else 0.0
+        inasistencias = self._to_float(data.get('inasistencias', 0))
+        segmento_ml = self._to_float(data.get('segmento_ml', 0))
+
         X = np.array([[
-            impacto_area,
-            data['dias_solicitados'],
-            data['antiguedad_anios']
-        ]])
+            self._to_float(impacto_area),
+            self._to_float(data['dias_solicitados']),
+            self._to_float(data['antiguedad_anios']),
+            self._to_float(data['dias_ult_ano']),
+            texto_largo,
+            anomala_bin,
+            vacaciones_bin,
+            enfermedad_bin,
+            sanciones_bin,
+            inasistencias,
+            segmento_ml
+        ]], dtype=float)
         
         prediction = model.predict(X)[0]
         decision = le.inverse_transform([prediction])[0]
@@ -235,10 +294,10 @@ class ModelPredictor:
         scaler = self.models['scaler']
         
         X = np.array([[
-            data['edad'],
-            data['antiguedad_anios'],
-            data['dias_ult_ano']
-        ]])
+            self._to_float(data['edad']),
+            self._to_float(data['antiguedad_anios']),
+            self._to_float(data['dias_ult_ano'])
+        ]], dtype=float)
         
         X_scaled = scaler.transform(X)
         cluster = model.predict(X_scaled)[0]
@@ -250,10 +309,10 @@ class ModelPredictor:
         model = self.models['knn']
         
         X = np.array([[
-            data['dias_ult_ano'],
-            data['antiguedad_anios'],
-            data['edad']
-        ]])
+            self._to_float(data['dias_ult_ano']),
+            self._to_float(data['antiguedad_anios']),
+            self._to_float(data['edad'])
+        ]], dtype=float)
         
         dias_sugeridos = model.predict(X)[0]
         return max(1, int(round(dias_sugeridos)))  # At least 1 day

@@ -437,3 +437,51 @@
  * Running on http://127.0.0.1:8000
  * Running on http://192.168.31.247:8000
 2025-11-26 22:20:25,183 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-27 14:01:43,757 - __main__ - INFO - ML Service started successfully
+2025-11-27 14:01:43,772 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-11-27 14:01:43,773 - apscheduler.scheduler - INFO - Added job "Automatic model retraining" to job store "default"
+2025-11-27 14:01:43,773 - apscheduler.scheduler - INFO - Scheduler started
+2025-11-27 14:01:43,773 - __main__ - INFO - Scheduler started. Models will retrain every 24 hours
+2025-11-27 14:01:43,790 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.31.247:8000
+2025-11-27 14:01:43,790 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-27 14:56:23,090 - models.predictor - INFO - Loaded naive_bayes from D:\proyecto_sabado\comfachoco\ml-service\trained_models\modelo_nb.pkl
+2025-11-27 14:56:23,109 - models.predictor - INFO - Loaded vectorizer from D:\proyecto_sabado\comfachoco\ml-service\trained_models\vectorizer.pkl
+2025-11-27 14:56:23,110 - models.predictor - WARNING - Model file not found: D:\proyecto_sabado\comfachoco\ml-service\trained_models\tfidf.pkl
+2025-11-27 14:56:23,111 - models.predictor - WARNING - Model file not found: D:\proyecto_sabado\comfachoco\ml-service\trained_models\modelo_svm_text.pkl
+2025-11-27 14:56:23,111 - models.predictor - WARNING - Model file not found: D:\proyecto_sabado\comfachoco\ml-service\trained_models\modelo_logreg_text.pkl
+2025-11-27 14:56:23,111 - models.predictor - WARNING - Model file not found: D:\proyecto_sabado\comfachoco\ml-service\trained_models\tfidf_logreg.pkl
+2025-11-27 14:56:23,132 - models.predictor - INFO - Loaded svm from D:\proyecto_sabado\comfachoco\ml-service\trained_models\modelo_svm.pkl
+2025-11-27 14:56:23,149 - models.predictor - INFO - Loaded regression from D:\proyecto_sabado\comfachoco\ml-service\trained_models\modelo_regresion.pkl
+2025-11-27 14:56:23,164 - models.predictor - INFO - Loaded logistic from D:\proyecto_sabado\comfachoco\ml-service\trained_models\modelo_log.pkl
+2025-11-27 14:56:23,179 - models.predictor - INFO - Loaded label_encoder from D:\proyecto_sabado\comfachoco\ml-service\trained_models\label_rrhh.pkl
+2025-11-27 14:56:23,198 - models.predictor - INFO - Loaded tree from D:\proyecto_sabado\comfachoco\ml-service\trained_models\modelo_tree.pkl
+2025-11-27 14:56:23,213 - models.predictor - INFO - Loaded kmeans from D:\proyecto_sabado\comfachoco\ml-service\trained_models\modelo_kmeans.pkl
+2025-11-27 14:56:23,229 - models.predictor - INFO - Loaded scaler from D:\proyecto_sabado\comfachoco\ml-service\trained_models\scaler.pkl
+2025-11-27 14:56:23,247 - models.predictor - INFO - Loaded knn from D:\proyecto_sabado\comfachoco\ml-service\trained_models\modelo_knn.pkl
+2025-11-27 14:56:23,365 - database.connection - INFO - Database connection established successfully
+2025-11-27 14:56:23,373 - database.connection - INFO - Database connection established successfully
+2025-11-27 14:56:23,376 - database.connection - INFO - Database connection closed
+2025-11-27 14:56:23,377 - database.connection - INFO - Database connection closed
+2025-11-27 14:56:23,548 - models.predictor - INFO - Predictions made for employee 2
+2025-11-27 14:56:23,552 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 14:56:23] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-27 14:58:22,855 - database.connection - INFO - Database connection established successfully
+2025-11-27 14:58:22,865 - database.connection - INFO - Database connection established successfully
+2025-11-27 14:58:22,870 - database.connection - INFO - Database connection closed
+2025-11-27 14:58:22,871 - database.connection - INFO - Database connection closed
+2025-11-27 14:58:22,876 - models.predictor - INFO - Predictions made for employee 2
+2025-11-27 14:58:22,877 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 14:58:22] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-27 15:36:32,929 - database.connection - INFO - Database connection established successfully
+2025-11-27 15:36:32,934 - database.connection - INFO - Database connection established successfully
+2025-11-27 15:36:32,934 - database.connection - INFO - Database connection closed
+2025-11-27 15:36:32,934 - database.connection - INFO - Database connection closed
+2025-11-27 15:36:32,957 - models.predictor - INFO - Predictions made for employee 2
+2025-11-27 15:36:32,957 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 15:36:32] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-27 15:36:55,490 - database.connection - INFO - Database connection established successfully
+2025-11-27 15:36:55,490 - database.connection - INFO - Database connection established successfully
+2025-11-27 15:36:55,490 - database.connection - INFO - Database connection closed
+2025-11-27 15:36:55,490 - database.connection - INFO - Database connection closed
+2025-11-27 15:36:55,499 - models.predictor - INFO - Predictions made for employee 2
+2025-11-27 15:36:55,501 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 15:36:55] "POST /api/ml/predict HTTP/1.1" 200 -
