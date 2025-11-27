@@ -122,7 +122,7 @@ const RRHHPanel = () => {
 
     return (
         <div className="rrhh-container" style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)', padding: 16 }}>
-            <header className="dashboard-header" style={{ maxWidth: 1100, margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <header className="dashboard-header" style={{ maxWidth: 1400, margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                     <h1 style={{ margin: 0, color: '#064e3b' }}>Panel RRHH - {user?.nombre}</h1>
                     <p className="text-muted" style={{ margin: 0, color: '#065f46' }}>Gestión de Solicitudes de Permiso</p>
@@ -137,47 +137,65 @@ const RRHHPanel = () => {
                 </div>
             </header>
 
-            <main className="rrhh-content" style={{ maxWidth: 1100, margin: '0 auto' }}>
+            {/* Barra de acciones fija arriba, fuera de la tarjeta */}
+            <div
+                className="actions-section"
+                style={{
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 5,
+                    background: 'linear-gradient(135deg, #ffffff 0%, #ffffff 100%)',
+                    borderBottom: '1px solid #e5e7eb',
+                    padding: '12px 0',
+                    maxWidth: 1400,
+                    margin: '0 auto 16px',
+                    display: 'flex',
+                    gap: 8,
+                    alignItems: 'center'
+                }}
+            >
+                <button
+                    className={`btn ${filter === 'PENDIENTE' ? 'btn-primary' : 'btn-outline'}`}
+                    onClick={() => setFilter('PENDIENTE')}
+                    style={{ backgroundColor: filter === 'PENDIENTE' ? '#059669' : undefined, borderColor: '#047857' }}
+                >
+                    Pendientes
+                </button>
+                <button
+                    className={`btn ${filter === 'AUTORIZADO' ? 'btn-primary' : 'btn-outline'}`}
+                    onClick={() => setFilter('AUTORIZADO')}
+                    style={{ backgroundColor: filter === 'AUTORIZADO' ? '#059669' : undefined, borderColor: '#047857' }}
+                >
+                    Autorizadas
+                </button>
+                <button
+                    className={`btn ${filter === 'RECHAZADO' ? 'btn-primary' : 'btn-outline'}`}
+                    onClick={() => setFilter('RECHAZADO')}
+                    style={{ backgroundColor: filter === 'RECHAZADO' ? '#059669' : undefined, borderColor: '#047857' }}
+                >
+                    Rechazadas
+                </button>
+                <button
+                    className={`btn ${filter === '' ? 'btn-primary' : 'btn-outline'}`}
+                    onClick={() => setFilter('')}
+                    style={{ backgroundColor: filter === '' ? '#059669' : undefined, borderColor: '#047857' }}
+                >
+                    Todas
+                </button>
+                <button onClick={handleExportCSV} className="btn btn-success" style={{ backgroundColor: '#10B981', borderColor: '#059669' }}>
+                    📥 Exportar CSV
+                </button>
+            </div>
+
+            <main className="rrhh-content" style={{ maxWidth: 1400, margin: '0 auto' }}>
                 <section className="card">
-                    <div className="card-header" style={{ backgroundColor: 'white', borderRadius: 12, boxShadow: '0 6px 16px rgba(4, 120, 87, 0.12)', border: '1px solid #a7f3d0', padding: 16 }}>
+                    <div className="card-header" style={{ backgroundColor: 'white', borderRadius: 12, boxShadow: '0 8px 18px rgba(4, 120, 87, 0.12)', border: '1px solid #a7f3d0', padding: 20 }}>
                         <h2 style={{ margin: 0, color: '#065f46' }}>Solicitudes de Empleados</h2>
                     </div>
-                    <div className="card-body" style={{ backgroundColor: 'white', borderRadius: 12, boxShadow: '0 6px 16px rgba(4, 120, 87, 0.10)', border: '1px solid #a7f3d0', padding: 16, marginTop: 12 }}>
-                        <div className="actions-section" style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 12 }}>
-                            <button
-                                className={`btn ${filter === 'PENDIENTE' ? 'btn-primary' : 'btn-outline'}`}
-                                onClick={() => setFilter('PENDIENTE')}
-                                style={{ backgroundColor: filter === 'PENDIENTE' ? '#059669' : undefined, borderColor: '#047857' }}
-                            >
-                                Pendientes
-                            </button>
-                            <button
-                                className={`btn ${filter === 'AUTORIZADO' ? 'btn-primary' : 'btn-outline'}`}
-                                onClick={() => setFilter('AUTORIZADO')}
-                                style={{ backgroundColor: filter === 'AUTORIZADO' ? '#059669' : undefined, borderColor: '#047857' }}
-                            >
-                                Autorizadas
-                            </button>
-                            <button
-                                className={`btn ${filter === 'RECHAZADO' ? 'btn-primary' : 'btn-outline'}`}
-                                onClick={() => setFilter('RECHAZADO')}
-                                style={{ backgroundColor: filter === 'RECHAZADO' ? '#059669' : undefined, borderColor: '#047857' }}
-                            >
-                                Rechazadas
-                            </button>
-                            <button
-                                className={`btn ${filter === '' ? 'btn-primary' : 'btn-outline'}`}
-                                onClick={() => setFilter('')}
-                                style={{ backgroundColor: filter === '' ? '#059669' : undefined, borderColor: '#047857' }}
-                            >
-                                Todas
-                            </button>
-                            <button onClick={handleExportCSV} className="btn btn-success" style={{ backgroundColor: '#10B981', borderColor: '#059669' }}>
-                                📥 Exportar CSV
-                            </button>
-                        </div>
+                    <div className="card-body" style={{ backgroundColor: 'white', borderRadius: 12, boxShadow: '0 8px 18px rgba(4, 120, 87, 0.10)', border: '1px solid #a7f3d0', padding: 20, marginTop: 12 }}>
+                    </div>
 
-                        <div className="solicitudes-section">
+                        <div className="solicitudes-section" style={{ marginTop: 8 }}>
                             <h3>Solicitudes ({solicitudes.length})</h3>
                             {loading ? (
                                 <p>Cargando...</p>
@@ -283,7 +301,6 @@ const RRHHPanel = () => {
                                 </div>
                             )}
                         </div>
-                    </div>
                 </section>
             </main>
 
