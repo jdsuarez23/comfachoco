@@ -100,18 +100,23 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="dashboard-container">
-            <header className="dashboard-header">
+        <div className="dashboard-container" style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)', padding: 16 }}>
+            <header className="dashboard-header" style={{ maxWidth: 1100, margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                    <h1>Dashboard - {user?.nombre}</h1>
-                    <p className="text-muted">{user?.email} | {user?.cargo || 'Empleado'}</p>
+                    <h1 style={{ margin: 0, color: '#064e3b' }}>Dashboard - {user?.nombre}</h1>
+                    <p className="text-muted" style={{ margin: 0, color: '#065f46' }}>{user?.email} | {user?.cargo || 'Empleado'}</p>
                 </div>
-                <button onClick={logout} className="btn btn-secondary">
-                    Cerrar Sesión
-                </button>
+                <div style={{ display: 'flex', gap: 8 }}>
+                    <a href="http://localhost:3000/" className="btn btn-outline" style={{ borderColor: '#047857', color: '#065f46' }}>
+                        ← Volver al Inicio
+                    </a>
+                    <button onClick={logout} className="btn btn-secondary" style={{ backgroundColor: '#059669', borderColor: '#047857', color: 'white' }}>
+                        Cerrar Sesión
+                    </button>
+                </div>
             </header>
 
-            <div className="dashboard-content">
+            <div className="dashboard-content" style={{ maxWidth: 1100, margin: '0 auto' }}>
                 <div className="actions-section">
                     <button
                         onClick={() => setShowForm(!showForm)}
@@ -123,8 +128,8 @@ const Dashboard = () => {
                 </div>
 
                 {showForm && (
-                    <div className="form-card">
-                        <h3>Nueva Solicitud de Permiso</h3>
+                    <div className="form-card" style={{ backgroundColor: 'white', borderRadius: 12, boxShadow: '0 10px 20px rgba(4, 120, 87, 0.12)', border: '1px solid #a7f3d0', padding: 16 }}>
+                        <h3 style={{ marginTop: 0, color: '#065f46' }}>Nueva Solicitud de Permiso</h3>
                         <div className="info-box" style={{ background: '#e3f2fd', padding: '12px', borderRadius: '8px', marginBottom: '20px' }}>
                             <p style={{ margin: 0, fontSize: '14px', color: '#1976d2' }}>
                                 🤖 <strong>Proceso Inteligente:</strong> Describe tu solicitud y nuestro sistema ML clasificará automáticamente el tipo de permiso.
@@ -240,12 +245,12 @@ const Dashboard = () => {
                     </div>
                 )}
 
-                <div className="solicitudes-section">
-                    <h3>Mis Solicitudes</h3>
+                <div className="solicitudes-section" style={{ marginTop: 16 }}>
+                    <h3 style={{ color: '#065f46' }}>Mis Solicitudes</h3>
                     {solicitudes.length === 0 ? (
                         <p className="text-muted">No tienes solicitudes aún.</p>
                     ) : (
-                        <div className="table-responsive">
+                        <div className="table-responsive" style={{ backgroundColor: 'white', borderRadius: 12, boxShadow: '0 6px 16px rgba(4, 120, 87, 0.10)', border: '1px solid #a7f3d0' }}>
                             <table className="table">
                                 <thead>
                                     <tr>
