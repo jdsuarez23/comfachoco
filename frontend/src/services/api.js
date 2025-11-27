@@ -68,7 +68,8 @@ export const solicitudesAPI = {
     getMySolicitudes: () => api.get('/solicitudes/mis-solicitudes'),
     getById: (id) => api.get(`/solicitudes/${id}`),
     getDetails: (id) => api.get(`/solicitudes/${id}/details`),
-    downloadFile: (id) => api.get(`/solicitudes/${id}/download`, { responseType: 'blob' })
+    downloadFile: (id) => api.get(`/solicitudes/${id}/download`, { responseType: 'blob' }),
+    delete: (id) => api.delete(`/solicitudes/${id}`)
 };
 
 // RRHH API
@@ -80,7 +81,8 @@ export const rrhhAPI = {
     aprobar: (id, data) => api.put(`/rrhh/solicitudes/${id}/aprobar`, data),
     rechazar: (id, data) => api.put(`/rrhh/solicitudes/${id}/rechazar`, data),
     getEstadisticas: () => api.get('/rrhh/estadisticas'),
-    exportCSV: () => api.get('/rrhh/export-csv', { responseType: 'blob' })
+    exportCSV: () => api.get('/rrhh/export-csv', { responseType: 'blob' }),
+    delete: (id) => api.delete(`/rrhh/solicitudes/${id}`)
 };
 
 export default api;

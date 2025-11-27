@@ -21,11 +21,9 @@ const Login = () => {
         const result = await login(email, password);
 
         if (result.success) {
-            // Get user from localStorage to check role
             const savedUser = localStorage.getItem('user');
             if (savedUser) {
                 const user = JSON.parse(savedUser);
-                // Redirect based on role
                 if (user.rol === 'RRHH') {
                     navigate('/rrhh');
                 } else {
@@ -40,12 +38,12 @@ const Login = () => {
     };
 
     return (
-        <div className="auth-container">
-            <div className="auth-card">
-                <div className="auth-header">
-                    <h1>🏢 Comfachoco</h1>
-                    <h2>Sistema de Permisos</h2>
-                    <p>Inicia sesión para continuar</p>
+        <div className="auth-container" style={{ backgroundColor: '#f8fdfb' }}>
+            <div className="auth-card" style={{ border: '1px solid #a7f3d0', borderRadius: 12 }}>
+                <div className="auth-header" style={{ textAlign: 'center', color: '#065f46' }}>
+                    <h1 style={{ color: '#065f46' }}>🏢 Comfachoco</h1>
+                    <h2 style={{ color: '#065f46' }}>Sistema de Permisos</h2>
+                    <p style={{ color: '#047857' }}>Inicia sesión para continuar</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="auth-form">
@@ -79,6 +77,11 @@ const Login = () => {
                         type="submit"
                         className="btn btn-primary btn-block"
                         disabled={loading}
+                        style={{
+                            backgroundColor: '#059669',
+                            borderColor: '#047857',
+                            color: 'white'
+                        }}
                     >
                         {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
                     </button>
@@ -88,7 +91,7 @@ const Login = () => {
                     <p>¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link></p>
                 </div>
 
-                <div className="demo-credentials">
+                <div className="demo-credentials" style={{ backgroundColor: '#ecfdf5', borderRadius: 8, padding: 8 }}>
                     <p><strong>Credenciales de prueba:</strong></p>
                     <p>RRHH: maria.gonzalez@comfachoco.com</p>
                     <p>Empleado: carlos.ramirez@comfachoco.com</p>

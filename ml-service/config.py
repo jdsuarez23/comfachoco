@@ -27,6 +27,10 @@ class Config:
     MODEL_PATHS = {
         'naive_bayes': os.path.join(MODELS_DIR, 'modelo_nb.pkl'),
         'vectorizer': os.path.join(MODELS_DIR, 'vectorizer.pkl'),
+        'tfidf': os.path.join(MODELS_DIR, 'tfidf.pkl'),
+        'svm_text': os.path.join(MODELS_DIR, 'modelo_svm_text.pkl'),
+        'logreg_text': os.path.join(MODELS_DIR, 'modelo_logreg_text.pkl'),
+        'tfidf_logreg': os.path.join(MODELS_DIR, 'tfidf_logreg.pkl'),
         'svm': os.path.join(MODELS_DIR, 'modelo_svm.pkl'),
         'regression': os.path.join(MODELS_DIR, 'modelo_regresion.pkl'),
         'logistic': os.path.join(MODELS_DIR, 'modelo_log.pkl'),

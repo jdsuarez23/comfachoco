@@ -5,12 +5,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, Bell, ChartPie, CircleCheck, Settings, Heart, CheckCircle, Brain, TrendingUp, Target, Zap, Database, BarChart3 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import DiagramaFlujoMetodologia from '@/components/DiagramaFlujoMetodologia';
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [currentView, setCurrentView] = useState('home');
+  const searchParams = useSearchParams();
+  const [user, setUser] = useState<any>(null);
   const [formData, setFormData] = useState({
     nombre: '',
     tipo: '',
@@ -34,7 +37,20 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
+    const rawUser = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+    if (rawUser) {
+      try { setUser(JSON.parse(rawUser)); } catch {}
+    }
   }, []);
+
+  useEffect(() => {
+    const viewParam = searchParams.get('view');
+    if (viewParam) {
+      setCurrentView(viewParam);
+    }
+  }, [searchParams]);
+
+  const isAuthenticated = !!user;
 
   useEffect(() => {
     if (mounted) {
@@ -187,6 +203,14 @@ export default function Home() {
                 >
                   Dashboard
                 </Button>
+                {user?.rol === 'RRHH' && (
+                  <Button 
+                    onClick={() => setCurrentView('dashboard-rrhh')}
+                    className={`${currentView === 'dashboard-rrhh' ? 'bg-emerald-700' : 'bg-emerald-600 hover:bg-emerald-700'} text-white text-sm px-3 py-2`}
+                  >
+                    RRHH
+                  </Button>
+                )}
                 <Button 
                   onClick={navigateToEquipo}
                   className={`${currentView === 'equipo' ? 'bg-emerald-700' : 'bg-emerald-600 hover:bg-emerald-700'} text-white text-sm px-3 py-2`}
@@ -211,6 +235,22 @@ export default function Home() {
                 >
                   🔍
                 </Button>
+                { !isAuthenticated && (
+                  <Button
+                    onClick={() => { const CRA_BASE = process.env.NEXT_PUBLIC_CRA_BASE || 'http://localhost:3001'; window.location.href = `${CRA_BASE}/login`; }}
+                    className={`bg-emerald-500 hover:bg-emerald-600 text-white text-sm px-3 py-2`}
+                  >
+                    Iniciar Sesión
+                  </Button>
+                )}
+                {isAuthenticated && (
+                  <Button
+                    onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); setUser(null); setCurrentView('home'); window.history.replaceState({}, '', '/'); }}
+                    className={`bg-emerald-500 hover:bg-emerald-600 text-white text-sm px-3 py-2`}
+                  >
+                    Cerrar Sesión
+                  </Button>
+                )}
               </div>
             </nav>
           </div>
@@ -249,6 +289,15 @@ export default function Home() {
                 >
                   Solicitar Permiso Ahora
                 </Button>
+                <div className="mt-3">
+                  <Button 
+                    variant="outline"
+                    className="border-emerald-600 text-emerald-700 hover:bg-emerald-50 px-6 py-2 text-base"
+                    onClick={() => { const CRA_BASE = process.env.NEXT_PUBLIC_CRA_BASE || 'http://localhost:3000'; window.location.href = `${CRA_BASE}/login`; }}
+                  >
+                    Iniciar Sesión
+                  </Button>
+                </div>
               </div>
             </section>
 
@@ -737,6 +786,15 @@ export default function Home() {
         {currentView === 'dashboard' && (
           <section className={`py-4 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="max-w-6xl mx-auto">
+              {!isAuthenticated && (
+                <div className="text-center mb-6 bg-emerald-50 border border-emerald-100 rounded-lg p-4">
+                  <p className="text-emerald-700 font-semibold">Necesitas iniciar sesión para ver el Dashboard.</p>
+                  <Button 
+                    className="mt-3 bg-emerald-600 hover:bg-emerald-700 text-white"
+                    onClick={() => { window.location.href = '/login'; }}
+                  >Iniciar Sesión</Button>
+                </div>
+              )}
               <div className="text-center mb-6">
                 <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-3">
                   <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-lg inline-block">
@@ -794,6 +852,80 @@ export default function Home() {
                   <CardContent>
                     <div className="h-40 bg-emerald-50 rounded-lg flex items-center justify-center">
                       <p className="text-gray-600">Gráfico de distribución</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {currentView === 'dashboard-rrhh' && (
+          <section className={`py-4 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="max-w-6xl mx-auto">
+              {(!isAuthenticated || user?.rol !== 'RRHH') && (
+                <div className="text-center mb-6 bg-red-50 border border-red-100 rounded-lg p-4">
+                  <p className="text-red-700 font-semibold">Acceso restringido a RRHH. Inicia sesión con un usuario de RRHH.</p>
+                  <Button 
+                    className="mt-3 bg-emerald-600 hover:bg-emerald-700 text-white"
+                    onClick={() => { window.location.href = '/login'; }}
+                  >Iniciar Sesión</Button>
+                </div>
+              )}
+              <div className="text-center mb-6">
+                <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-3">
+                  <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-lg inline-block">
+                    Panel RRHH
+                  </span>
+                </h2>
+                <p className="text-base text-gray-600 max-w-3xl mx-auto">
+                  Gestión centralizada de solicitudes, aprobaciones y métricas de personal.
+                </p>
+              </div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <Card className="border-emerald-100">
+                  <CardContent className="p-4 text-center">
+                    <div className="text-2xl font-bold text-emerald-700">--</div>
+                    <div className="text-sm text-gray-600">Solicitudes pendientes</div>
+                  </CardContent>
+                </Card>
+                <Card className="border-emerald-100">
+                  <CardContent className="p-4 text-center">
+                    <div className="text-2xl font-bold text-emerald-700">--</div>
+                    <div className="text-sm text-gray-600">Aprobadas hoy</div>
+                  </CardContent>
+                </Card>
+                <Card className="border-emerald-100">
+                  <CardContent className="p-4 text-center">
+                    <div className="text-2xl font-bold text-emerald-700">--</div>
+                    <div className="text-sm text-gray-600">Rechazadas hoy</div>
+                  </CardContent>
+                </Card>
+                <Card className="border-emerald-100">
+                  <CardContent className="p-4 text-center">
+                    <div className="text-2xl font-bold text-emerald-700">--</div>
+                    <div className="text-sm text-gray-600">Tiempo medio aprobación</div>
+                  </CardContent>
+                </Card>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                <Card className="border-emerald-100">
+                  <CardHeader>
+                    <CardTitle className="text-emerald-700">Solicitudes Recientes</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-40 bg-emerald-50 rounded-lg flex items-center justify-center">
+                      <p className="text-gray-600 text-sm">Integrar tabla solicitudes (pendiente)</p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="border-emerald-100">
+                  <CardHeader>
+                    <CardTitle className="text-emerald-700">Analítica de Tipos</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-40 bg-emerald-50 rounded-lg flex items-center justify-center">
+                      <p className="text-gray-600 text-sm">Integrar distribución (pendiente)</p>
                     </div>
                   </CardContent>
                 </Card>

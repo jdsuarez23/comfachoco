@@ -116,6 +116,7 @@ const Dashboard = () => {
                     <button
                         onClick={() => setShowForm(!showForm)}
                         className="btn btn-primary"
+                        style={{ backgroundColor: '#059669', borderColor: '#047857' }}
                     >
                         {showForm ? '✕ Cancelar' : '+ Nueva Solicitud'}
                     </button>
@@ -231,6 +232,7 @@ const Dashboard = () => {
                                 type="submit"
                                 className="btn btn-primary"
                                 disabled={loading || !formik.isValid}
+                                style={{ backgroundColor: '#059669', borderColor: '#047857' }}
                             >
                                 {loading ? 'Enviando...' : 'Enviar Solicitud'}
                             </button>
@@ -274,6 +276,24 @@ const Dashboard = () => {
                                                     : 'N/A'}
                                             </td>
                                             <td>{sol.comentario_rrhh || '-'}</td>
+                                            <td>
+                                                {sol.resultado_rrhh === 'PENDIENTE' && (
+                                                    <button
+                                                        className="btn btn-danger btn-sm"
+                                                        onClick={async () => {
+                                                            try {
+                                                                await solicitudesAPI.delete(sol.solicitud_id);
+                                                                toast.success(`Solicitud ${sol.solicitud_id} eliminada`);
+                                                                loadSolicitudes();
+                                                            } catch (err) {
+                                                                toast.error(err.response?.data?.message || 'Error al eliminar');
+                                                            }
+                                                        }}
+                                                    >
+                                                        Eliminar
+                                                    </button>
+                                                )}
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>

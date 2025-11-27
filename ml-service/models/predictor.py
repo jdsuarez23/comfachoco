@@ -96,14 +96,64 @@ class ModelPredictor:
             raise
     
     def _predict_tipo_permiso(self, motivo_texto):
-        """Model 1: Classify leave type from text"""
-        vectorizer = self.models['vectorizer']
-        model = self.models['naive_bayes']
-        
-        motivo_vect = vectorizer.transform([motivo_texto])
-        tipo_predicho = model.predict(motivo_vect)[0]
-        
-        return tipo_predicho
+        """Model 1: Classify leave type from text.
+        Prefer Linear SVM + TF-IDF if available; fallback to Naive Bayes.
+        """
+        # Normalize text for lexical rules
+        texto = (motivo_texto or '').lower()
+
+        # Lexical override rules for Spanish intents
+        reglas = [
+            # ENFERMEDAD / MÉDICO
+            {
+                'clase': 'ENFERMEDAD',
+                'any': [
+                    'médico', 'medico', 'cita médica', 'cita medico', 'especialista', 'examen', 'laboratorio',
+                    'eps', 'incapacidad', 'urgencias', 'hospital', 'clinica', 'clínica', 'odontologo', 'odontólogo'
+                ]
+            },
+            # VACACIONES
+            {
+                'clase': 'VACACIONES',
+                'any': [
+                    'vacaciones', 'viaje', 'descanso', 'licencia vacacional', 'turismo', 'salida familiar'
+                ]
+            },
+            # PERSONAL (trámites)
+            {
+                'clase': 'PERSONAL',
+                'any': [
+                    'trámite', 'tramite', 'notaría', 'notaria', 'banco', 'documentos', 'diligencia', 'diligencias'
+                ]
+            }
+        ]
+
+        # First try ML prediction (prefer SVM, then LogReg, then NB)
+        if 'svm_text' in self.models and 'tfidf' in self.models:
+            vectorizer = self.models['tfidf']
+            model = self.models['svm_text']
+            tipo_ml = model.predict(vectorizer.transform([texto]))[0]
+        elif 'logreg_text' in self.models and 'tfidf_logreg' in self.models:
+            vectorizer = self.models['tfidf_logreg']
+            model = self.models['logreg_text']
+            tipo_ml = model.predict(vectorizer.transform([texto]))[0]
+        else:
+            vectorizer = self.models.get('tfidf', self.models['vectorizer'])
+            model = self.models['naive_bayes']
+            tipo_ml = model.predict(vectorizer.transform([texto]))[0]
+
+        # Apply lexical overrides on top of ML to fix common misclassifications
+        for regla in reglas:
+            if any(token in texto for token in regla['any']):
+                # If ML predicts PERSONAL but intent is clearly medical or vacation, override
+                if regla['clase'] in ['ENFERMEDAD', 'VACACIONES']:
+                    return regla['clase']
+                # Otherwise keep ML unless completely uninformative
+                if tipo_ml is None or str(tipo_ml).strip() == '':
+                    return regla['clase']
+
+        # Default to ML result
+        return tipo_ml
     
     def _detect_anomaly(self, data):
         """Model 2: Detect if request is anomalous"""

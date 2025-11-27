@@ -12,6 +12,7 @@ import { AuthProvider, ProtectedRoute } from './context/AuthContext';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import RRHHPanel from './pages/RRHHPanel';
+import HomeLanding from './pages/HomeLanding';
 
 function App() {
     return (
@@ -39,8 +40,8 @@ function App() {
                             }
                         />
 
-                        <Route path="/" element={<Navigate to="/login" replace />} />
-                        <Route path="*" element={<Navigate to="/login" replace />} />
+                        <Route path="/" element={<HomeLanding />} />
+                        <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
 
                     <ToastContainer

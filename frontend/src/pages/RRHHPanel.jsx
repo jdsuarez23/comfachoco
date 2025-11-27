@@ -127,7 +127,7 @@ const RRHHPanel = () => {
                     <h1>Panel RRHH - {user?.nombre}</h1>
                     <p className="text-muted">Gestión de Solicitudes de Permiso</p>
                 </div>
-                <button onClick={logout} className="btn btn-secondary">
+                <button onClick={logout} className="btn btn-secondary" style={{ backgroundColor: '#059669', borderColor: '#047857' }}>
                     Cerrar Sesión
                 </button>
             </header>
@@ -138,29 +138,33 @@ const RRHHPanel = () => {
                         <button
                             className={`btn ${filter === 'PENDIENTE' ? 'btn-primary' : 'btn-outline'}`}
                             onClick={() => setFilter('PENDIENTE')}
+                            style={{ backgroundColor: filter === 'PENDIENTE' ? '#059669' : undefined, borderColor: '#047857' }}
                         >
                             Pendientes
                         </button>
                         <button
                             className={`btn ${filter === 'AUTORIZADO' ? 'btn-primary' : 'btn-outline'}`}
                             onClick={() => setFilter('AUTORIZADO')}
+                            style={{ backgroundColor: filter === 'AUTORIZADO' ? '#059669' : undefined, borderColor: '#047857' }}
                         >
                             Autorizadas
                         </button>
                         <button
                             className={`btn ${filter === 'RECHAZADO' ? 'btn-primary' : 'btn-outline'}`}
                             onClick={() => setFilter('RECHAZADO')}
+                            style={{ backgroundColor: filter === 'RECHAZADO' ? '#059669' : undefined, borderColor: '#047857' }}
                         >
                             Rechazadas
                         </button>
                         <button
                             className={`btn ${filter === '' ? 'btn-primary' : 'btn-outline'}`}
                             onClick={() => setFilter('')}
+                            style={{ backgroundColor: filter === '' ? '#059669' : undefined, borderColor: '#047857' }}
                         >
                             Todas
                         </button>
                     </div>
-                    <button onClick={handleExportCSV} className="btn btn-success">
+                    <button onClick={handleExportCSV} className="btn btn-success" style={{ backgroundColor: '#10B981', borderColor: '#059669' }}>
                         📥 Exportar CSV
                     </button>
                 </div>
@@ -222,6 +226,7 @@ const RRHHPanel = () => {
                                                 <div className="action-buttons">
                                                     <button
                                                         className="btn btn-sm btn-info"
+                                                        style={{ backgroundColor: '#14B8A6', borderColor: '#0D9488' }}
                                                         onClick={() => {
                                                             setDetailsSolicitudId(sol.solicitud_id);
                                                             setShowDetailsModal(true);
@@ -233,15 +238,31 @@ const RRHHPanel = () => {
                                                         <>
                                                             <button
                                                                 className="btn btn-sm btn-success"
+                                                                style={{ backgroundColor: '#10B981', borderColor: '#059669' }}
                                                                 onClick={() => handleOpenModal(sol, 'aprobar')}
                                                             >
                                                                 ✓ Aprobar
                                                             </button>
                                                             <button
                                                                 className="btn btn-sm btn-danger"
+                                                                style={{ backgroundColor: '#DC2626', borderColor: '#B91C1C' }}
                                                                 onClick={() => handleOpenModal(sol, 'rechazar')}
                                                             >
                                                                 ✕ Rechazar
+                                                            </button>
+                                                            <button
+                                                                className="btn btn-sm btn-outline-danger"
+                                                                onClick={async () => {
+                                                                    try {
+                                                                        await rrhhAPI.delete(sol.solicitud_id);
+                                                                        toast.success(`Solicitud ${sol.solicitud_id} eliminada`);
+                                                                        loadSolicitudes();
+                                                                    } catch (err) {
+                                                                        toast.error(err.response?.data?.message || 'Error al eliminar');
+                                                                    }
+                                                                }}
+                                                            >
+                                                                🗑 Eliminar
                                                             </button>
                                                         </>
                                                     )}
