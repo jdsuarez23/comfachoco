@@ -1,0 +1,429 @@
+2025-11-26 00:15:57,842 - __main__ - INFO - ML Service started successfully
+2025-11-26 00:15:57,868 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-11-26 00:15:57,870 - apscheduler.scheduler - INFO - Added job "Automatic model retraining" to job store "default"
+2025-11-26 00:15:57,870 - apscheduler.scheduler - INFO - Scheduler started
+2025-11-26 00:15:57,872 - __main__ - INFO - Scheduler started. Models will retrain every 24 hours
+2025-11-26 00:15:57,889 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.247:5000
+2025-11-26 00:15:57,890 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 00:18:23,378 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 00:18:23] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+2025-11-26 00:19:06,123 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 00:19:06] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+2025-11-26 00:40:16,222 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-11-26 00:40:23,377 - __main__ - INFO - ML Service started successfully
+2025-11-26 00:40:23,387 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-11-26 00:40:23,389 - apscheduler.scheduler - INFO - Added job "Automatic model retraining" to job store "default"
+2025-11-26 00:40:23,389 - apscheduler.scheduler - INFO - Scheduler started
+2025-11-26 00:40:23,390 - __main__ - INFO - Scheduler started. Models will retrain every 24 hours
+2025-11-26 00:40:23,411 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.247:5000
+2025-11-26 00:40:23,411 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 00:41:52,248 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-11-26 00:41:59,166 - __main__ - INFO - ML Service started successfully
+2025-11-26 00:41:59,175 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-11-26 00:41:59,176 - apscheduler.scheduler - INFO - Added job "Automatic model retraining" to job store "default"
+2025-11-26 00:41:59,177 - apscheduler.scheduler - INFO - Scheduler started
+2025-11-26 00:41:59,179 - __main__ - INFO - Scheduler started. Models will retrain every 24 hours
+2025-11-26 00:41:59,198 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.31.247:8000
+2025-11-26 00:41:59,198 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 00:42:11,747 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 00:42:11] "GET /api/ml/health HTTP/1.1" 200 -
+2025-11-26 00:42:32,946 - models.predictor - INFO - Loaded naive_bayes from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_nb.pkl
+2025-11-26 00:42:32,948 - models.predictor - INFO - Loaded vectorizer from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\vectorizer.pkl
+2025-11-26 00:42:32,951 - models.predictor - INFO - Loaded svm from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_svm.pkl
+2025-11-26 00:42:32,953 - models.predictor - INFO - Loaded regression from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_regresion.pkl
+2025-11-26 00:42:32,954 - models.predictor - INFO - Loaded logistic from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_log.pkl
+2025-11-26 00:42:32,956 - models.predictor - INFO - Loaded label_encoder from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\label_rrhh.pkl
+2025-11-26 00:42:32,959 - models.predictor - INFO - Loaded tree from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_tree.pkl
+2025-11-26 00:42:32,960 - models.predictor - INFO - Loaded kmeans from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_kmeans.pkl
+2025-11-26 00:42:32,961 - models.predictor - INFO - Loaded scaler from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\scaler.pkl
+2025-11-26 00:42:32,963 - models.predictor - INFO - Loaded knn from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_knn.pkl
+2025-11-26 00:42:33,022 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:42:33,027 - database.connection - INFO - Database connection closed
+2025-11-26 00:42:33,027 - models.data_loader - ERROR - Failed to load employee data: unsupported operand type(s) for -: 'datetime.datetime' and 'datetime.date'
+2025-11-26 00:42:33,028 - models.predictor - ERROR - Prediction failed: unsupported operand type(s) for -: 'datetime.datetime' and 'datetime.date'
+2025-11-26 00:42:33,028 - api.routes - ERROR - Prediction failed: unsupported operand type(s) for -: 'datetime.datetime' and 'datetime.date'
+2025-11-26 00:42:33,029 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 00:42:33] "[35m[1mPOST /api/ml/predict HTTP/1.1[0m" 500 -
+2025-11-26 00:43:08,645 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:43:08,649 - database.connection - INFO - Database connection closed
+2025-11-26 00:43:08,649 - models.data_loader - ERROR - Failed to load employee data: unsupported operand type(s) for -: 'datetime.datetime' and 'datetime.date'
+2025-11-26 00:43:08,650 - models.predictor - ERROR - Prediction failed: unsupported operand type(s) for -: 'datetime.datetime' and 'datetime.date'
+2025-11-26 00:43:08,650 - api.routes - ERROR - Prediction failed: unsupported operand type(s) for -: 'datetime.datetime' and 'datetime.date'
+2025-11-26 00:43:08,652 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 00:43:08] "[35m[1mPOST /api/ml/predict HTTP/1.1[0m" 500 -
+2025-11-26 00:43:41,737 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:43:41,739 - database.connection - INFO - Database connection closed
+2025-11-26 00:43:41,740 - models.data_loader - ERROR - Failed to load employee data: unsupported operand type(s) for -: 'datetime.datetime' and 'datetime.date'
+2025-11-26 00:43:41,740 - models.predictor - ERROR - Prediction failed: unsupported operand type(s) for -: 'datetime.datetime' and 'datetime.date'
+2025-11-26 00:43:41,740 - api.routes - ERROR - Prediction failed: unsupported operand type(s) for -: 'datetime.datetime' and 'datetime.date'
+2025-11-26 00:43:41,741 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 00:43:41] "[35m[1mPOST /api/ml/predict HTTP/1.1[0m" 500 -
+2025-11-26 00:43:58,382 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-11-26 00:44:05,837 - __main__ - INFO - ML Service started successfully
+2025-11-26 00:44:05,847 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-11-26 00:44:05,848 - apscheduler.scheduler - INFO - Added job "Automatic model retraining" to job store "default"
+2025-11-26 00:44:05,848 - apscheduler.scheduler - INFO - Scheduler started
+2025-11-26 00:44:05,849 - __main__ - INFO - Scheduler started. Models will retrain every 24 hours
+2025-11-26 00:44:05,867 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.31.247:8000
+2025-11-26 00:44:05,867 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 00:44:18,600 - models.predictor - INFO - Loaded naive_bayes from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_nb.pkl
+2025-11-26 00:44:18,602 - models.predictor - INFO - Loaded vectorizer from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\vectorizer.pkl
+2025-11-26 00:44:18,604 - models.predictor - INFO - Loaded svm from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_svm.pkl
+2025-11-26 00:44:18,605 - models.predictor - INFO - Loaded regression from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_regresion.pkl
+2025-11-26 00:44:18,608 - models.predictor - INFO - Loaded logistic from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_log.pkl
+2025-11-26 00:44:18,608 - models.predictor - INFO - Loaded label_encoder from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\label_rrhh.pkl
+2025-11-26 00:44:18,611 - models.predictor - INFO - Loaded tree from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_tree.pkl
+2025-11-26 00:44:18,611 - models.predictor - INFO - Loaded kmeans from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_kmeans.pkl
+2025-11-26 00:44:18,613 - models.predictor - INFO - Loaded scaler from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\scaler.pkl
+2025-11-26 00:44:18,615 - models.predictor - INFO - Loaded knn from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_knn.pkl
+2025-11-26 00:44:18,677 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:44:18,687 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:44:18,696 - database.connection - INFO - Database connection closed
+2025-11-26 00:44:18,697 - database.connection - INFO - Database connection closed
+2025-11-26 00:44:18,851 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 00:44:18,852 - api.routes - ERROR - Prediction failed: Object of type bool_ is not JSON serializable
+2025-11-26 00:44:18,853 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 00:44:18] "[35m[1mPOST /api/ml/predict HTTP/1.1[0m" 500 -
+2025-11-26 00:44:41,807 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-11-26 00:45:17,453 - __main__ - INFO - ML Service started successfully
+2025-11-26 00:45:17,462 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-11-26 00:45:17,464 - apscheduler.scheduler - INFO - Added job "Automatic model retraining" to job store "default"
+2025-11-26 00:45:17,465 - apscheduler.scheduler - INFO - Scheduler started
+2025-11-26 00:45:17,465 - __main__ - INFO - Scheduler started. Models will retrain every 24 hours
+2025-11-26 00:45:17,485 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.31.247:8000
+2025-11-26 00:45:17,485 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 00:45:34,301 - models.predictor - INFO - Loaded naive_bayes from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_nb.pkl
+2025-11-26 00:45:34,302 - models.predictor - INFO - Loaded vectorizer from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\vectorizer.pkl
+2025-11-26 00:45:34,307 - models.predictor - INFO - Loaded svm from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_svm.pkl
+2025-11-26 00:45:34,308 - models.predictor - INFO - Loaded regression from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_regresion.pkl
+2025-11-26 00:45:34,308 - models.predictor - INFO - Loaded logistic from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_log.pkl
+2025-11-26 00:45:34,308 - models.predictor - INFO - Loaded label_encoder from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\label_rrhh.pkl
+2025-11-26 00:45:34,313 - models.predictor - INFO - Loaded tree from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_tree.pkl
+2025-11-26 00:45:34,313 - models.predictor - INFO - Loaded kmeans from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_kmeans.pkl
+2025-11-26 00:45:34,314 - models.predictor - INFO - Loaded scaler from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\scaler.pkl
+2025-11-26 00:45:34,316 - models.predictor - INFO - Loaded knn from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_knn.pkl
+2025-11-26 00:45:34,380 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:45:34,389 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:45:34,396 - database.connection - INFO - Database connection closed
+2025-11-26 00:45:34,396 - database.connection - INFO - Database connection closed
+2025-11-26 00:45:34,529 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 00:45:34,529 - api.routes - ERROR - Prediction failed: Object of type bool_ is not JSON serializable
+2025-11-26 00:45:34,530 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 00:45:34] "[35m[1mPOST /api/ml/predict HTTP/1.1[0m" 500 -
+2025-11-26 00:45:52,923 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-11-26 00:46:04,308 - __main__ - INFO - ML Service started successfully
+2025-11-26 00:46:04,317 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-11-26 00:46:04,319 - apscheduler.scheduler - INFO - Added job "Automatic model retraining" to job store "default"
+2025-11-26 00:46:04,320 - apscheduler.scheduler - INFO - Scheduler started
+2025-11-26 00:46:04,322 - __main__ - INFO - Scheduler started. Models will retrain every 24 hours
+2025-11-26 00:46:04,342 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.31.247:8000
+2025-11-26 00:46:04,342 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 00:46:17,821 - models.predictor - INFO - Loaded naive_bayes from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_nb.pkl
+2025-11-26 00:46:17,821 - models.predictor - INFO - Loaded vectorizer from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\vectorizer.pkl
+2025-11-26 00:46:17,825 - models.predictor - INFO - Loaded svm from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_svm.pkl
+2025-11-26 00:46:17,826 - models.predictor - INFO - Loaded regression from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_regresion.pkl
+2025-11-26 00:46:17,827 - models.predictor - INFO - Loaded logistic from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_log.pkl
+2025-11-26 00:46:17,828 - models.predictor - INFO - Loaded label_encoder from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\label_rrhh.pkl
+2025-11-26 00:46:17,829 - models.predictor - INFO - Loaded tree from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_tree.pkl
+2025-11-26 00:46:17,830 - models.predictor - INFO - Loaded kmeans from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_kmeans.pkl
+2025-11-26 00:46:17,831 - models.predictor - INFO - Loaded scaler from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\scaler.pkl
+2025-11-26 00:46:17,834 - models.predictor - INFO - Loaded knn from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_knn.pkl
+2025-11-26 00:46:17,894 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:46:17,905 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:46:17,912 - database.connection - INFO - Database connection closed
+2025-11-26 00:46:17,912 - database.connection - INFO - Database connection closed
+2025-11-26 00:46:18,041 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 00:46:18,043 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 00:46:18] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 00:50:32,996 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:50:33,006 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:50:33,010 - database.connection - INFO - Database connection closed
+2025-11-26 00:50:33,015 - database.connection - INFO - Database connection closed
+2025-11-26 00:50:33,017 - models.predictor - ERROR - Prediction failed: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 00:50:33,017 - api.routes - ERROR - Validation error: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 00:50:33,019 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 00:50:33] "[31m[1mPOST /api/ml/predict HTTP/1.1[0m" 400 -
+2025-11-26 00:52:14,015 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:52:14,025 - database.connection - INFO - Database connection established successfully
+2025-11-26 00:52:14,032 - database.connection - INFO - Database connection closed
+2025-11-26 00:52:14,033 - database.connection - INFO - Database connection closed
+2025-11-26 00:52:14,034 - models.predictor - ERROR - Prediction failed: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 00:52:14,035 - api.routes - ERROR - Validation error: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 00:52:14,035 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 00:52:14] "[31m[1mPOST /api/ml/predict HTTP/1.1[0m" 400 -
+2025-11-26 13:42:36,339 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:42:36,346 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:42:36,356 - database.connection - INFO - Database connection closed
+2025-11-26 13:42:36,356 - database.connection - INFO - Database connection closed
+2025-11-26 13:42:36,362 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:42:36,362 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:42:36] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:42:38,415 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:42:38,421 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:42:38,423 - database.connection - INFO - Database connection closed
+2025-11-26 13:42:38,425 - database.connection - INFO - Database connection closed
+2025-11-26 13:42:38,430 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:42:38,430 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:42:38] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:42:40,464 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:42:40,464 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:42:40,468 - database.connection - INFO - Database connection closed
+2025-11-26 13:42:40,468 - database.connection - INFO - Database connection closed
+2025-11-26 13:42:40,472 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:42:40,472 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:42:40] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:42:42,513 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:42:42,517 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:42:42,518 - database.connection - INFO - Database connection closed
+2025-11-26 13:42:42,520 - database.connection - INFO - Database connection closed
+2025-11-26 13:42:42,522 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:42:42,522 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:42:42] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:42:44,560 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:42:44,564 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:42:44,564 - database.connection - INFO - Database connection closed
+2025-11-26 13:42:44,567 - database.connection - INFO - Database connection closed
+2025-11-26 13:42:44,572 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:42:44,572 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:42:44] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:43:00,572 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:43:00,576 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:43:00,587 - database.connection - INFO - Database connection closed
+2025-11-26 13:43:00,591 - database.connection - INFO - Database connection closed
+2025-11-26 13:43:00,595 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:43:00,598 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:43:00] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:43:02,635 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:43:02,638 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:43:02,638 - database.connection - INFO - Database connection closed
+2025-11-26 13:43:02,641 - database.connection - INFO - Database connection closed
+2025-11-26 13:43:02,644 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:43:02,644 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:43:02] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:43:04,688 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:43:04,688 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:43:04,688 - database.connection - INFO - Database connection closed
+2025-11-26 13:43:04,688 - database.connection - INFO - Database connection closed
+2025-11-26 13:43:04,697 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:43:04,697 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:43:04] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:43:06,738 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:43:06,741 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:43:06,744 - database.connection - INFO - Database connection closed
+2025-11-26 13:43:06,744 - database.connection - INFO - Database connection closed
+2025-11-26 13:43:06,750 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:43:06,752 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:43:06] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:43:08,801 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:43:08,803 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:43:08,804 - database.connection - INFO - Database connection closed
+2025-11-26 13:43:08,805 - database.connection - INFO - Database connection closed
+2025-11-26 13:43:08,810 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:43:08,811 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:43:08] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:46:21,818 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:46:21,827 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:46:21,844 - database.connection - INFO - Database connection closed
+2025-11-26 13:46:21,846 - database.connection - INFO - Database connection closed
+2025-11-26 13:46:21,846 - models.predictor - ERROR - Prediction failed: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 13:46:21,846 - api.routes - ERROR - Validation error: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 13:46:21,846 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:46:21] "[31m[1mPOST /api/ml/predict HTTP/1.1[0m" 400 -
+2025-11-26 13:49:54,848 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-11-26 13:50:08,441 - __main__ - INFO - ML Service started successfully
+2025-11-26 13:50:08,454 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-11-26 13:50:08,454 - apscheduler.scheduler - INFO - Added job "Automatic model retraining" to job store "default"
+2025-11-26 13:50:08,454 - apscheduler.scheduler - INFO - Scheduler started
+2025-11-26 13:50:08,454 - __main__ - INFO - Scheduler started. Models will retrain every 24 hours
+2025-11-26 13:50:08,479 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.31.247:8000
+2025-11-26 13:50:08,479 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 13:50:44,311 - models.predictor - INFO - Loaded naive_bayes from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_nb.pkl
+2025-11-26 13:50:44,322 - models.predictor - INFO - Loaded vectorizer from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\vectorizer.pkl
+2025-11-26 13:50:44,350 - models.predictor - INFO - Loaded svm from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_svm.pkl
+2025-11-26 13:50:44,368 - models.predictor - INFO - Loaded regression from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_regresion.pkl
+2025-11-26 13:50:44,390 - models.predictor - INFO - Loaded logistic from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_log.pkl
+2025-11-26 13:50:44,393 - models.predictor - INFO - Loaded label_encoder from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\label_rrhh.pkl
+2025-11-26 13:50:44,407 - models.predictor - INFO - Loaded tree from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_tree.pkl
+2025-11-26 13:50:44,422 - models.predictor - INFO - Loaded kmeans from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_kmeans.pkl
+2025-11-26 13:50:44,434 - models.predictor - INFO - Loaded scaler from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\scaler.pkl
+2025-11-26 13:50:44,448 - models.predictor - INFO - Loaded knn from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_knn.pkl
+2025-11-26 13:50:44,547 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:50:44,560 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:50:44,567 - database.connection - INFO - Database connection closed
+2025-11-26 13:50:44,573 - database.connection - INFO - Database connection closed
+2025-11-26 13:50:44,714 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:50:44,716 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:50:44] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:50:46,745 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:50:46,745 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:50:46,745 - database.connection - INFO - Database connection closed
+2025-11-26 13:50:46,749 - database.connection - INFO - Database connection closed
+2025-11-26 13:50:46,753 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:50:46,754 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:50:46] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:50:48,802 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:50:48,804 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:50:48,804 - database.connection - INFO - Database connection closed
+2025-11-26 13:50:48,806 - database.connection - INFO - Database connection closed
+2025-11-26 13:50:48,812 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:50:48,814 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:50:48] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:50:50,844 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:50:50,846 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:50:50,848 - database.connection - INFO - Database connection closed
+2025-11-26 13:50:50,848 - database.connection - INFO - Database connection closed
+2025-11-26 13:50:50,855 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:50:50,855 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:50:50] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:50:52,890 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:50:52,890 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:50:52,890 - database.connection - INFO - Database connection closed
+2025-11-26 13:50:52,890 - database.connection - INFO - Database connection closed
+2025-11-26 13:50:52,898 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:50:52,899 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:50:52] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:51:11,624 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:11,626 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:11,626 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:11,626 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:11,632 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:51:11,634 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:51:11] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:51:13,655 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:13,656 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:13,656 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:13,659 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:13,663 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:51:13,663 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:51:13] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:51:15,682 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:15,682 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:15,687 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:15,687 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:15,691 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:51:15,691 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:51:15] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:51:17,731 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:17,732 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:17,734 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:17,734 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:17,739 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:51:17,741 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:51:17] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:51:19,792 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:19,792 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:19,795 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:19,795 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:19,798 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:51:19,798 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:51:19] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:51:53,222 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:53,246 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:53,256 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:53,256 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:53,262 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:51:53,262 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:51:53] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:51:55,281 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:55,281 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:55,287 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:55,288 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:55,290 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:51:55,290 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:51:55] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:51:57,323 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:57,323 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:57,323 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:57,323 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:57,332 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:51:57,333 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:51:57] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:51:59,364 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:59,364 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:51:59,374 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:59,374 - database.connection - INFO - Database connection closed
+2025-11-26 13:51:59,381 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:51:59,381 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:51:59] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:52:01,405 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:52:01,405 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:52:01,411 - database.connection - INFO - Database connection closed
+2025-11-26 13:52:01,411 - database.connection - INFO - Database connection closed
+2025-11-26 13:52:01,414 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 13:52:01,414 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:52:01] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 13:55:45,605 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:55:45,614 - database.connection - INFO - Database connection established successfully
+2025-11-26 13:55:45,630 - database.connection - INFO - Database connection closed
+2025-11-26 13:55:45,631 - database.connection - INFO - Database connection closed
+2025-11-26 13:55:45,634 - models.predictor - ERROR - Prediction failed: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 13:55:45,634 - api.routes - ERROR - Validation error: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 13:55:45,635 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 13:55:45] "[31m[1mPOST /api/ml/predict HTTP/1.1[0m" 400 -
+2025-11-26 13:59:37,888 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-11-26 13:59:45,343 - __main__ - INFO - ML Service started successfully
+2025-11-26 13:59:45,355 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-11-26 13:59:45,356 - apscheduler.scheduler - INFO - Added job "Automatic model retraining" to job store "default"
+2025-11-26 13:59:45,356 - apscheduler.scheduler - INFO - Scheduler started
+2025-11-26 13:59:45,358 - __main__ - INFO - Scheduler started. Models will retrain every 24 hours
+2025-11-26 13:59:45,377 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.31.247:8000
+2025-11-26 13:59:45,377 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 14:00:01,848 - models.predictor - INFO - Loaded naive_bayes from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_nb.pkl
+2025-11-26 14:00:01,864 - models.predictor - INFO - Loaded vectorizer from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\vectorizer.pkl
+2025-11-26 14:00:01,882 - models.predictor - INFO - Loaded svm from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_svm.pkl
+2025-11-26 14:00:01,893 - models.predictor - INFO - Loaded regression from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_regresion.pkl
+2025-11-26 14:00:01,911 - models.predictor - INFO - Loaded logistic from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_log.pkl
+2025-11-26 14:00:01,916 - models.predictor - INFO - Loaded label_encoder from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\label_rrhh.pkl
+2025-11-26 14:00:01,927 - models.predictor - INFO - Loaded tree from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_tree.pkl
+2025-11-26 14:00:01,945 - models.predictor - INFO - Loaded kmeans from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_kmeans.pkl
+2025-11-26 14:00:01,961 - models.predictor - INFO - Loaded scaler from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\scaler.pkl
+2025-11-26 14:00:01,977 - models.predictor - INFO - Loaded knn from C:\Users\ASUS\Desktop\comfachoco\ml-service\trained_models\modelo_knn.pkl
+2025-11-26 14:00:02,017 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:00:02,029 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:00:02,041 - database.connection - INFO - Database connection closed
+2025-11-26 14:00:02,042 - database.connection - INFO - Database connection closed
+2025-11-26 14:00:02,174 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 14:00:02,174 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 14:00:02] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 14:00:04,208 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:00:04,210 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:00:04,210 - database.connection - INFO - Database connection closed
+2025-11-26 14:00:04,210 - database.connection - INFO - Database connection closed
+2025-11-26 14:00:04,217 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 14:00:04,217 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 14:00:04] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 14:00:06,252 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:00:06,252 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:00:06,255 - database.connection - INFO - Database connection closed
+2025-11-26 14:00:06,256 - database.connection - INFO - Database connection closed
+2025-11-26 14:00:06,260 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 14:00:06,261 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 14:00:06] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 14:00:08,295 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:00:08,297 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:00:08,297 - database.connection - INFO - Database connection closed
+2025-11-26 14:00:08,297 - database.connection - INFO - Database connection closed
+2025-11-26 14:00:08,306 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 14:00:08,307 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 14:00:08] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 14:00:10,331 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:00:10,333 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:00:10,334 - database.connection - INFO - Database connection closed
+2025-11-26 14:00:10,334 - database.connection - INFO - Database connection closed
+2025-11-26 14:00:10,339 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 14:00:10,339 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 14:00:10] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 14:02:11,207 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:02:11,219 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:02:11,231 - database.connection - INFO - Database connection closed
+2025-11-26 14:02:11,233 - database.connection - INFO - Database connection closed
+2025-11-26 14:02:11,234 - models.predictor - ERROR - Prediction failed: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 14:02:11,236 - api.routes - ERROR - Validation error: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 14:02:11,237 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 14:02:11] "[31m[1mPOST /api/ml/predict HTTP/1.1[0m" 400 -
+2025-11-26 14:05:30,888 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:05:30,901 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:05:30,905 - database.connection - INFO - Database connection closed
+2025-11-26 14:05:30,905 - database.connection - INFO - Database connection closed
+2025-11-26 14:05:30,913 - models.predictor - ERROR - Prediction failed: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 14:05:30,913 - api.routes - ERROR - Validation error: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 14:05:30,913 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 14:05:30] "[31m[1mPOST /api/ml/predict HTTP/1.1[0m" 400 -
+2025-11-26 14:08:25,254 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:08:25,267 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:08:25,275 - database.connection - INFO - Database connection closed
+2025-11-26 14:08:25,275 - database.connection - INFO - Database connection closed
+2025-11-26 14:08:25,278 - models.predictor - INFO - Predictions made for employee 1
+2025-11-26 14:08:25,281 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 14:08:25] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 14:09:09,909 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:09:09,914 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:09:09,921 - database.connection - INFO - Database connection closed
+2025-11-26 14:09:09,923 - database.connection - INFO - Database connection closed
+2025-11-26 14:09:09,928 - models.predictor - INFO - Predictions made for employee 2
+2025-11-26 14:09:09,928 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 14:09:09] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-26 14:12:15,557 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:12:15,566 - database.connection - INFO - Database connection established successfully
+2025-11-26 14:12:15,572 - database.connection - INFO - Database connection closed
+2025-11-26 14:12:15,576 - database.connection - INFO - Database connection closed
+2025-11-26 14:12:15,578 - models.predictor - ERROR - Prediction failed: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 14:12:15,578 - api.routes - ERROR - Validation error: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+2025-11-26 14:12:15,578 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 14:12:15] "[31m[1mPOST /api/ml/predict HTTP/1.1[0m" 400 -

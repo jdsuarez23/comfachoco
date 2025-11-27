@@ -1,0 +1,35 @@
+================================================================================
+TESTING WITH USER'S EXAMPLES
+================================================================================
+
+Motivo: "Necesito ausentarme por cirugía programada"
+  Expected: MEDICO
+  Got: MEDICO
+  ✅ CORRECT
+  Probability: 61.41%
+
+Motivo: "Luto familiar, fallecimiento de mi padre"
+  Expected: CALAMIDAD
+  Got: CALAMIDAD
+  ✅ CORRECT
+  Probability: 61.41%
+
+Motivo: "Vacaciones de fin de año con mi familia"
+  Expected: VACACIONES
+  Got: VACACIONES
+  ✅ CORRECT
+  Probability: 61.41%
+
+Motivo: "Cita médica con especialista"
+  Expected: MEDICO
+  Got: MEDICO
+  ✅ CORRECT
+  Probability: 61.41%
+
+Motivo: "Emergencia familiar urgente"
+  Expected: CALAMIDAD
+  Got: CALAMIDAD
+  ✅ CORRECT
+  Probability: 61.41%
+
+================================================================================
