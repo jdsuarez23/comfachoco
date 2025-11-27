@@ -385,4 +385,34 @@ router.get('/export-csv', async (req, res) => {
     }
 });
 
+/**
+ * @route   DELETE /api/rrhh/solicitudes/:id
+ * @desc    Delete a leave request (RRHH authority)
+ * @access  Private (RRHH only)
+ */
+router.delete('/solicitudes/:id', async (req, res) => {
+    try {
+        const pool = await getPool();
+
+        const check = await pool.request()
+            .input('solicitud_id', sql.Int, req.params.id)
+            .query(`
+                SELECT solicitud_id FROM solicitudes_permiso WHERE solicitud_id = @solicitud_id
+            `);
+
+        if (check.recordset.length === 0) {
+            return res.status(404).json({ success: false, message: 'Solicitud no encontrada' });
+        }
+
+        await pool.request()
+            .input('solicitud_id', sql.Int, req.params.id)
+            .query('DELETE FROM solicitudes_permiso WHERE solicitud_id = @solicitud_id');
+
+        res.json({ success: true, message: 'Solicitud eliminada por RRHH' });
+    } catch (error) {
+        console.error('RRHH delete solicitud error:', error);
+        res.status(500).json({ success: false, message: 'Error eliminando solicitud' });
+    }
+});
+
 module.exports = router;

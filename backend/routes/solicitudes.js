@@ -9,6 +9,7 @@ const { body, validationResult } = require('express-validator');
 const { sql, getPool } = require('../config/database');
 const { authMiddleware } = require('../middleware/auth');
 const { getPredictions } = require('../services/mlService');
+const { classifyMotivo } = require('../services/aiClassifier');
 const upload = require('../middleware/upload');
 const path = require('path');
 const fs = require('fs');
@@ -83,6 +84,18 @@ router.post('/', authMiddleware, upload.single('archivo_soporte'), [
         console.log(`🤖 Requesting ML prediction for employee ${req.user.nombre}...`);
         console.log(`📝 Analyzing motivo: "${motivo_texto.substring(0, 50)}..."`);
 
+        // Primero, clasificar el motivo con el agente OpenAI (si hay API key)
+        let aiTipo = null;
+        if (process.env.OPENAI_API_KEY) {
+            const ai = await classifyMotivo(motivo_texto);
+            if (ai.success) {
+                aiTipo = ai.label;
+                console.log(`🤖 AI Tipo sugerido: ${aiTipo}`);
+            } else {
+                console.warn('⚠ AI classifier fallback to ML:', ai.error);
+            }
+        }
+
         const mlResult = await getPredictions(
             req.user.empleado_id,
             dias_solicitados,
@@ -99,7 +112,11 @@ router.post('/', authMiddleware, upload.single('archivo_soporte'), [
 
         if (mlResult.success) {
             // ML service returned predictions
-            tipo_permiso_real = mlResult.data.tipo_permiso_real; // From Naive Bayes
+            tipo_permiso_real = mlResult.data.tipo_permiso_real; // Predicción ML
+            // Si el agente OpenAI dio una etiqueta válida, preferirla
+            if (aiTipo) {
+                tipo_permiso_real = aiTipo;
+            }
             ml_probabilidad = mlResult.data.ml_probabilidad_aprobacion;
             es_anomala = mlResult.data.es_anomala;
             impacto_area_numerico = mlResult.data.impacto_area_numerico;
@@ -110,7 +127,8 @@ router.post('/', authMiddleware, upload.single('archivo_soporte'), [
         } else {
             // ML service failed - use fallback
             console.warn('⚠ ML service unavailable, using fallback classification');
-            tipo_permiso_real = 'PERSONAL'; // Default fallback
+            // Fallback: usar AI si está disponible
+            tipo_permiso_real = aiTipo || 'PERSONAL';
             ml_probabilidad = 0.5;
             es_anomala = dias_solicitados > 15;
             impacto_area_numerico = null;
@@ -405,6 +423,45 @@ router.get('/:id/download', authMiddleware, async (req, res) => {
             success: false,
             message: 'Server error downloading file'
         });
+    }
+});
+
+/**
+ * @route   DELETE /api/solicitudes/:id
+ * @desc    Delete a leave request (owner only and if PENDIENTE)
+ * @access  Private (Employee)
+ */
+router.delete('/:id', authMiddleware, async (req, res) => {
+    try {
+        const pool = await getPool();
+
+        // Ensure the request belongs to the current user and is pending
+        const check = await pool.request()
+            .input('solicitud_id', sql.Int, req.params.id)
+            .input('empleado_id', sql.Int, req.user.empleado_id)
+            .query(`
+                SELECT solicitud_id, empleado_id, resultado_rrhh
+                FROM solicitudes_permiso
+                WHERE solicitud_id = @solicitud_id AND empleado_id = @empleado_id
+            `);
+
+        if (check.recordset.length === 0) {
+            return res.status(404).json({ success: false, message: 'Solicitud no encontrada' });
+        }
+
+        const solicitud = check.recordset[0];
+        if (solicitud.resultado_rrhh !== 'PENDIENTE') {
+            return res.status(400).json({ success: false, message: 'Solo se puede eliminar solicitudes PENDIENTES' });
+        }
+
+        await pool.request()
+            .input('solicitud_id', sql.Int, req.params.id)
+            .query('DELETE FROM solicitudes_permiso WHERE solicitud_id = @solicitud_id');
+
+        res.json({ success: true, message: 'Solicitud eliminada' });
+    } catch (error) {
+        console.error('Delete solicitud error:', error);
+        res.status(500).json({ success: false, message: 'Error eliminando solicitud' });
     }
 });
 

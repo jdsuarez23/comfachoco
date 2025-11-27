@@ -1,10 +1,28 @@
+const axios = require('axios');
+// Axios instancia con timeout y reintento simple
+const mlClient = axios.create({
+    baseURL: process.env.ML_SERVICE_URL || 'http://localhost:8000',
+    timeout: 5000,
+});
+
+async function postWithRetry(url, data, tries = 2) {
+    let lastErr;
+    for (let i = 0; i < tries; i++) {
+        try {
+            return await mlClient.post(url, data);
+        } catch (err) {
+            lastErr = err;
+            // pequeño backoff
+            await new Promise(r => setTimeout(r, 250 * (i + 1)));
+        }
+    }
+    throw lastErr;
+}
 /**
  * ML Service Integration
  * Communicates with Python Flask ML service for comprehensive predictions
  * Includes all 7 ML models from Simulador_completo1.ipynb
  */
-
-const axios = require('axios');
 
 const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://localhost:8000';
 
@@ -21,22 +39,14 @@ async function getPredictions(empleado_id, dias_solicitados, motivo_texto, fecha
     try {
         console.log('📊 Calling ML service for comprehensive prediction...');
 
-        const response = await axios.post(
-            `${ML_SERVICE_URL}/api/ml/predict`,
-            {
-                empleado_id,
-                dias_solicitados,
-                motivo_texto,
-                fecha_inicio,
-                fecha_fin
-            },
-            {
-                timeout: 10000, // 10 second timeout
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
+    const payload = {
+      empleado_id,
+      dias_solicitados,
+      motivo_texto,
+      fecha_inicio,
+      fecha_fin,
+    };
+    const response = await postWithRetry('/api/ml/predict', payload, 3);
 
         if (response.data) {
             console.log(`✓ ML predictions received:`);
