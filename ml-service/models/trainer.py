@@ -14,6 +14,14 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.cluster import KMeans
 from sklearn.neighbors import KNeighborsRegressor
+from sklearn.metrics import (
+    precision_recall_fscore_support,
+    confusion_matrix,
+    roc_auc_score,
+    mean_absolute_error,
+    mean_squared_error,
+    silhouette_score
+)
 
 from config import Config
 from models.data_loader import DataLoader
@@ -42,17 +50,23 @@ class ModelTrainer:
             )
         
         # Train each model
+        # Text classification models (multi-clase tipo_permiso_real)
         self._train_naive_bayes(df)
         self._train_svm_text(df)
-        # Optional third text classifier (OvR Logistic Regression)
         try:
             self._train_logreg_text(df)
         except Exception as e:
             logger.warning(f"LogReg text training skipped: {e}")
+
+        # Anomaly detection (no split required unsupervised)
         self._train_one_class_svm(df)
+
+        # Regression / classification with business features
         self._train_linear_regression(df)
         self._train_logistic_regression(df)
         self._train_decision_tree(df)
+
+        # Clustering & recommendation
         self._train_kmeans(df)
         self._train_knn(df)
         
@@ -70,58 +84,100 @@ class ModelTrainer:
         logger.info("Training Naive Bayes (TF-IDF) model...")
         X = df['motivo_texto'].fillna('')
         y = df['tipo_permiso_real']
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
         # Spanish-oriented TF-IDF: with stopwords and wider n-grams
         spanish_stopwords = [
             'de','la','que','el','en','y','a','los','del','se','las','por','un','para','con','no','una','su','al','lo','como','más','pero','sus','le','ya','o','este','sí','porque','esta','entre','cuando','muy','sin','sobre','también','me','hasta','hay','donde','quien','desde','todo','nos','durante','todos','uno','les','ni','contra','otros','ese','eso','ante','ellos','e','esto','mí','antes','algunos','qué','unos','yo','otro','otras','otra','él','tanto','esa','estos','mucho','quienes','nada','muchos','cual','poco','ella','estar','estas','algunas','algo','nosotros','mi','mis','tú','te','ti','tu','tus','ellas','nosotras','vosotros','vosotras','os','mío','mía','míos','mías','tuyo','tuya','tuyos','tuyas','suyo','suya','suyos','suyas','nuestro','nuestra','nuestros','nuestras','vuestro','vuestra','vuestros','vuestras','esos','esas'
         ]
         vectorizer = TfidfVectorizer(max_features=20000, ngram_range=(1, 3), sublinear_tf=True, stop_words=spanish_stopwords)
-        X_vect = vectorizer.fit_transform(X)
+        X_train_vect = vectorizer.fit_transform(X_train)
+        X_test_vect = vectorizer.transform(X_test)
         model = MultinomialNB()
-        model.fit(X_vect, y)
+        model.fit(X_train_vect, y_train)
         self.models['naive_bayes'] = model
         # Save under both keys for backward compatibility and new usage
         self.models['vectorizer'] = vectorizer
         self.models['tfidf'] = vectorizer
-        accuracy = model.score(X_vect, y)
-        self.training_metrics['naive_bayes_accuracy'] = accuracy
-        logger.info(f"Naive Bayes (TF-IDF) trained. Accuracy: {accuracy:.4f}")
+        y_train_pred = model.predict(X_train_vect)
+        y_test_pred = model.predict(X_test_vect)
+        train_acc = model.score(X_train_vect, y_train)
+        test_acc = model.score(X_test_vect, y_test)
+        prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_test_pred, average='weighted', zero_division=0)
+        cm = confusion_matrix(y_test, y_test_pred)
+        self.training_metrics.update({
+            'naive_bayes_train_accuracy': train_acc,
+            'naive_bayes_test_accuracy': test_acc,
+            'naive_bayes_test_precision': prec,
+            'naive_bayes_test_recall': rec,
+            'naive_bayes_test_f1': f1,
+            'naive_bayes_test_confusion_matrix': cm.tolist()
+        })
+        logger.info(f"Naive Bayes (TF-IDF) trained. Acc(train): {train_acc:.4f} Acc(test): {test_acc:.4f} F1(test): {f1:.4f}")
 
     def _train_svm_text(self, df):
         """Model 1B: Linear SVM with TF-IDF for robust text classification (tipo_permiso_real)"""
         logger.info("Training Linear SVM (TF-IDF) text classifier...")
         X = df['motivo_texto'].fillna('')
         y = df['tipo_permiso_real']
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
         spanish_stopwords = [
             'de','la','que','el','en','y','a','los','del','se','las','por','un','para','con','no','una','su','al','lo','como','más','pero','sus','le','ya','o','este','sí','porque','esta','entre','cuando','muy','sin','sobre','también','me','hasta','hay','donde','quien','desde','todo','nos','durante','todos','uno','les','ni','contra','otros','ese','eso','ante','ellos','e','esto','mí','antes','algunos','qué','unos','yo','otro','otras','otra','él','tanto','esa','estos','mucho','quienes','nada','muchos','cual','poco','ella','estar','estas','algunas','algo','nosotros','mi','mis','tú','te','ti','tu','tus','ellas','nosotras','vosotros','vosotras','os','mío','mía','míos','mías','tuyo','tuya','tuyos','tuyas','suyo','suya','suyos','suyas','nuestro','nuestra','nuestros','nuestras','vuestro','vuestra','vuestros','vuestras','esos','esas'
         ]
         vectorizer = TfidfVectorizer(max_features=30000, ngram_range=(1, 3), sublinear_tf=True, stop_words=spanish_stopwords)
-        X_tfidf = vectorizer.fit_transform(X)
+        X_train_tfidf = vectorizer.fit_transform(X_train)
+        X_test_tfidf = vectorizer.transform(X_test)
         svm_clf = LinearSVC()
-        svm_clf.fit(X_tfidf, y)
+        svm_clf.fit(X_train_tfidf, y_train)
         self.models['svm_text'] = svm_clf
         # ensure we persist this vectorizer; predictor will prefer tfidf
         self.models['tfidf'] = vectorizer
-        accuracy_svm = svm_clf.score(X_tfidf, y)
-        self.training_metrics['svm_text_accuracy'] = accuracy_svm
-        logger.info(f"Linear SVM trained. Accuracy: {accuracy_svm:.4f}")
+        y_train_pred = svm_clf.predict(X_train_tfidf)
+        y_test_pred = svm_clf.predict(X_test_tfidf)
+        train_acc = svm_clf.score(X_train_tfidf, y_train)
+        test_acc = svm_clf.score(X_test_tfidf, y_test)
+        prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_test_pred, average='weighted', zero_division=0)
+        cm = confusion_matrix(y_test, y_test_pred)
+        self.training_metrics.update({
+            'svm_text_train_accuracy': train_acc,
+            'svm_text_test_accuracy': test_acc,
+            'svm_text_test_precision': prec,
+            'svm_text_test_recall': rec,
+            'svm_text_test_f1': f1,
+            'svm_text_test_confusion_matrix': cm.tolist()
+        })
+        logger.info(f"Linear SVM trained. Acc(train): {train_acc:.4f} Acc(test): {test_acc:.4f} F1(test): {f1:.4f}")
 
     def _train_logreg_text(self, df):
         """Model 1C: One-vs-Rest Logistic Regression over TF-IDF for text classification."""
         logger.info("Training One-vs-Rest Logistic Regression text classifier...")
         X = df['motivo_texto'].fillna('')
         y = df['tipo_permiso_real']
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
         spanish_stopwords = [
             'de','la','que','el','en','y','a','los','del','se','las','por','un','para','con','no','una','su','al','lo','como','más','pero','sus','le','ya','o','este','sí','porque','esta','entre','cuando','muy','sin','sobre','también','me','hasta','hay','donde','quien','desde','todo','nos','durante','todos','uno','les','ni','contra','otros','ese','eso','ante','ellos','e','esto','mí','antes','algunos','qué','unos','yo','otro','otras','otra','él','tanto','esa','estos','mucho','quienes','nada','muchos','cual','poco','ella','estar','estas','algunas','algo','nosotros','mi','mis','tú','te','ti','tu','tus','ellas','nosotras','vosotros','vosotras','os','mío','mía','míos','mías','tuyo','tuya','tuyos','tuyas','suyo','suya','suyos','suyas','nuestro','nuestra','nuestros','nuestras','vuestro','vuestra','vuestros','vuestras','esos','esas'
         ]
         vectorizer = TfidfVectorizer(max_features=30000, ngram_range=(1, 3), sublinear_tf=True, stop_words=spanish_stopwords)
-        X_tfidf = vectorizer.fit_transform(X)
+        X_train_tfidf = vectorizer.fit_transform(X_train)
+        X_test_tfidf = vectorizer.transform(X_test)
         clf = OneVsRestClassifier(LogisticRegression(max_iter=1000))
-        clf.fit(X_tfidf, y)
+        clf.fit(X_train_tfidf, y_train)
         self.models['logreg_text'] = clf
         self.models['tfidf_logreg'] = vectorizer
-        accuracy = clf.score(X_tfidf, y)
-        self.training_metrics['logreg_text_accuracy'] = accuracy
-        logger.info(f"LogReg (OvR) trained. Accuracy: {accuracy:.4f}")
+        y_train_pred = clf.predict(X_train_tfidf)
+        y_test_pred = clf.predict(X_test_tfidf)
+        train_acc = clf.score(X_train_tfidf, y_train)
+        test_acc = clf.score(X_test_tfidf, y_test)
+        prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_test_pred, average='weighted', zero_division=0)
+        cm = confusion_matrix(y_test, y_test_pred)
+        self.training_metrics.update({
+            'logreg_text_train_accuracy': train_acc,
+            'logreg_text_test_accuracy': test_acc,
+            'logreg_text_test_precision': prec,
+            'logreg_text_test_recall': rec,
+            'logreg_text_test_f1': f1,
+            'logreg_text_test_confusion_matrix': cm.tolist()
+        })
+        logger.info(f"LogReg (OvR) trained. Acc(train): {train_acc:.4f} Acc(test): {test_acc:.4f} F1(test): {f1:.4f}")
     
     def _train_one_class_svm(self, df):
         """Model 2: One-Class SVM for anomaly detection"""
@@ -163,16 +219,23 @@ class ModelTrainer:
             y = np.clip(y, 0, 100)
         
         # Train model
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         model = LinearRegression()
-        model.fit(X, y)
-        
+        model.fit(X_train, y_train)
         self.models['regression'] = model
-        
-        # Calculate R² score
-        r2_score = model.score(X, y)
-        self.training_metrics['regression_r2'] = r2_score
-        
-        logger.info(f"Linear Regression trained. R² score: {r2_score:.4f}")
+        y_train_pred = model.predict(X_train)
+        y_test_pred = model.predict(X_test)
+        r2_train = model.score(X_train, y_train)
+        r2_test = model.score(X_test, y_test)
+        mae_test = mean_absolute_error(y_test, y_test_pred)
+        rmse_test = mean_squared_error(y_test, y_test_pred, squared=False)
+        self.training_metrics.update({
+            'regression_r2_train': r2_train,
+            'regression_r2_test': r2_test,
+            'regression_test_mae': mae_test,
+            'regression_test_rmse': rmse_test
+        })
+        logger.info(f"Linear Regression trained. R2(train): {r2_train:.4f} R2(test): {r2_test:.4f} MAE(test): {mae_test:.2f}")
     
     def _train_logistic_regression(self, df):
         """Model 4: Logistic Regression for resultado_rrhh prediction"""
@@ -220,25 +283,46 @@ class ModelTrainer:
         y = le.fit_transform(df['resultado_rrhh'])
         
         # Train model
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42, stratify=y)
         base = LogisticRegression(max_iter=1000, class_weight='balanced')
-        base.fit(X, y)
-        # Calibración para probabilidades mejor comportadas
+        base.fit(X_train, y_train)
+        # Calibración sobre conjunto de entrenamiento (simple); ideal: usar validación interna
         try:
             calibrated = CalibratedClassifierCV(base_estimator=base, method='sigmoid', cv=3)
-            calibrated.fit(X, y)
+            calibrated.fit(X_train, y_train)
             self.models['logistic_calibrated'] = calibrated
             logger.info("Calibrated logistic regression trained (sigmoid, cv=3)")
         except Exception as e:
             logger.warning(f"Calibration skipped: {e}")
-        
+
         self.models['logistic'] = base
         self.models['label_encoder'] = le
-        
-        # Calculate accuracy
-        accuracy = base.score(X, y)
-        self.training_metrics['logistic_accuracy'] = accuracy
-        
-        logger.info(f"Logistic Regression trained. Accuracy: {accuracy:.4f}")
+
+        y_train_pred = base.predict(X_train)
+        y_test_pred = base.predict(X_test)
+        train_acc = base.score(X_train, y_train)
+        test_acc = base.score(X_test, y_test)
+        # Probabilidades para ROC-AUC (solo si binario)
+        try:
+            if len(le.classes_) == 2:
+                y_test_proba = base.predict_proba(X_test)[:, list(le.classes_).index('AUTORIZADO')] if 'AUTORIZADO' in le.classes_ else base.predict_proba(X_test)[:,1]
+                auc = roc_auc_score(y_test, y_test_proba)
+            else:
+                auc = None
+        except Exception:
+            auc = None
+        prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_test_pred, average='weighted', zero_division=0)
+        cm = confusion_matrix(y_test, y_test_pred).tolist()
+        self.training_metrics.update({
+            'logistic_train_accuracy': train_acc,
+            'logistic_test_accuracy': test_acc,
+            'logistic_test_precision': prec,
+            'logistic_test_recall': rec,
+            'logistic_test_f1': f1,
+            'logistic_test_auc': auc,
+            'logistic_test_confusion_matrix': cm
+        })
+        logger.info(f"Logistic Regression trained. Acc(train): {train_acc:.4f} Acc(test): {test_acc:.4f} F1(test): {f1:.4f} AUC(test): {auc if auc is not None else 'n/a'}")
     
     def _train_decision_tree(self, df):
         """Model 5: Decision Tree for resultado_rrhh classification"""
@@ -276,16 +360,25 @@ class ModelTrainer:
         y = self.models['label_encoder'].transform(df['resultado_rrhh'])
         
         # Train model
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42, stratify=y)
         model = DecisionTreeClassifier(max_depth=5, random_state=42)
-        model.fit(X, y)
-        
+        model.fit(X_train, y_train)
         self.models['tree'] = model
-        
-        # Calculate accuracy
-        accuracy = model.score(X, y)
-        self.training_metrics['tree_accuracy'] = accuracy
-        
-        logger.info(f"Decision Tree trained. Accuracy: {accuracy:.4f}")
+        y_train_pred = model.predict(X_train)
+        y_test_pred = model.predict(X_test)
+        train_acc = model.score(X_train, y_train)
+        test_acc = model.score(X_test, y_test)
+        prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_test_pred, average='weighted', zero_division=0)
+        cm = confusion_matrix(y_test, y_test_pred).tolist()
+        self.training_metrics.update({
+            'tree_train_accuracy': train_acc,
+            'tree_test_accuracy': test_acc,
+            'tree_test_precision': prec,
+            'tree_test_recall': rec,
+            'tree_test_f1': f1,
+            'tree_test_confusion_matrix': cm
+        })
+        logger.info(f"Decision Tree trained. Acc(train): {train_acc:.4f} Acc(test): {test_acc:.4f} F1(test): {f1:.4f}")
     
     def _train_kmeans(self, df):
         """Model 6: KMeans for employee segmentation"""
@@ -299,7 +392,7 @@ class ModelTrainer:
         X_scaled = scaler.fit_transform(X)
         
         # Train model
-        model = KMeans(n_clusters=3, random_state=42)
+        model = KMeans(n_clusters=3, random_state=42, n_init='auto')
         model.fit(X_scaled)
         
         self.models['kmeans'] = model
@@ -307,8 +400,12 @@ class ModelTrainer:
         
         # Calculate inertia
         self.training_metrics['kmeans_inertia'] = model.inertia_
-        
-        logger.info(f"KMeans trained. Inertia: {model.inertia_:.4f}")
+        try:
+            sil = silhouette_score(X_scaled, model.labels_)
+        except Exception:
+            sil = None
+        self.training_metrics['kmeans_silhouette'] = sil
+        logger.info(f"KMeans trained. Inertia: {model.inertia_:.4f} Silhouette: {sil if sil is not None else 'n/a'}")
     
     def _train_knn(self, df):
         """Model 7: KNN for dias_solicitados suggestion"""
@@ -319,16 +416,23 @@ class ModelTrainer:
         y = df['dias_solicitados']
         
         # Train model
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
         model = KNeighborsRegressor(n_neighbors=5)
-        model.fit(X, y)
-        
+        model.fit(X_train, y_train)
         self.models['knn'] = model
-        
-        # Calculate R² score
-        r2_score = model.score(X, y)
-        self.training_metrics['knn_r2'] = r2_score
-        
-        logger.info(f"KNN trained. R² score: {r2_score:.4f}")
+        y_train_pred = model.predict(X_train)
+        y_test_pred = model.predict(X_test)
+        r2_train = model.score(X_train, y_train)
+        r2_test = model.score(X_test, y_test)
+        mae_test = mean_absolute_error(y_test, y_test_pred)
+        rmse_test = mean_squared_error(y_test, y_test_pred, squared=False)
+        self.training_metrics.update({
+            'knn_r2_train': r2_train,
+            'knn_r2_test': r2_test,
+            'knn_test_mae': mae_test,
+            'knn_test_rmse': rmse_test
+        })
+        logger.info(f"KNN trained. R2(train): {r2_train:.4f} R2(test): {r2_test:.4f} MAE(test): {mae_test:.2f}")
     
     def _save_models(self):
         """Save all trained models to disk"""
