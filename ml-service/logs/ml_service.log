@@ -491,3 +491,9 @@
 2025-11-27 15:39:05,338 - database.connection - INFO - Database connection closed
 2025-11-27 15:39:05,343 - models.predictor - INFO - Predictions made for employee 2
 2025-11-27 15:39:05,343 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 15:39:05] "POST /api/ml/predict HTTP/1.1" 200 -
+2025-11-27 16:27:48,020 - database.connection - INFO - Database connection established successfully
+2025-11-27 16:27:48,028 - database.connection - INFO - Database connection established successfully
+2025-11-27 16:27:48,033 - database.connection - INFO - Database connection closed
+2025-11-27 16:27:48,033 - database.connection - INFO - Database connection closed
+2025-11-27 16:27:48,054 - models.predictor - INFO - Predictions made for employee 2
+2025-11-27 16:27:48,058 - werkzeug - INFO - 127.0.0.1 - - [27/Nov/2025 16:27:48] "POST /api/ml/predict HTTP/1.1" 200 -
